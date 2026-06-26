@@ -5,37 +5,63 @@ import { Link } from '@/i18n/navigation';
 
 export function Footer() {
   const t = useTranslations('footer');
+  const nav = useTranslations('nav');
+
+  const columns = [
+    {
+      title: t('shop'),
+      links: [
+        { href: '/mobiles/smartphones', label: nav('mobiles') },
+        { href: '/laptops/gaming-laptops', label: nav('laptops') },
+        { href: '/deals/flash', label: nav('flashDeals') },
+        { href: '/pre-owned/used-phones', label: nav('preOwned') },
+      ],
+    },
+    {
+      title: t('help'),
+      links: [
+        { href: '/help', label: t('help') },
+        { href: '/help/returns', label: t('returns') },
+        { href: '/help/about', label: t('about') },
+      ],
+    },
+    {
+      title: t('account'),
+      links: [
+        { href: '/account/login', label: t('signIn') },
+        { href: '/account/register', label: t('joinUs') },
+        { href: '/vendor/register', label: t('sellOnTelemart') },
+      ],
+    },
+  ];
+
   return (
-    <footer className="mt-auto border-t border-border bg-slate-900 text-slate-300">
-      <div className="container-main grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="mt-auto border-t border-[var(--nike-hairline)] bg-[var(--nike-canvas)]">
+      <div className="container-main grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <h3 className="mb-4 text-lg font-bold text-white">Telemart</h3>
-          <p className="text-sm">Pakistan&apos;s trusted online marketplace for mobiles, electronics, and fashion.</p>
+          <p className="text-display-campaign text-3xl">TELEMART</p>
+          <p className="mt-3 text-caption-md text-[var(--nike-mute)]">{t('tagline')}</p>
         </div>
-        <div>
-          <h4 className="mb-3 font-semibold text-white">Support</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/help" className="hover:text-white">{t('help')}</Link></li>
-            <li><Link href="/help/returns" className="hover:text-white">{t('returns')}</Link></li>
-            <li><Link href="/help/about" className="hover:text-white">{t('about')}</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="mb-3 font-semibold text-white">Shop</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link href="/deals/flash" className="hover:text-white">Flash Deals</Link></li>
-            <li><Link href="/pre-owned/used-phones" className="hover:text-white">Pre-Owned</Link></li>
-            <li><Link href="/catalog/under-999" className="hover:text-white">Under Rs 999</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="mb-3 font-semibold text-white">Contact</h4>
-          <p className="text-sm">{t('contact')}</p>
-          <p className="mt-2 text-sm">WhatsApp support available 24/7</p>
-        </div>
+        {columns.map((col) => (
+          <div key={col.title}>
+            <h4 className="text-body-strong mb-4">{col.title}</h4>
+            <ul className="space-y-3">
+              {col.links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-caption-md text-[var(--nike-mute)] hover:text-[var(--nike-ink)]">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      <div className="border-t border-slate-800 py-4 text-center text-sm">
-        &copy; {new Date().getFullYear()} Telemart Clone. {t('rights')}
+      <div className="border-t border-[var(--nike-hairline)]">
+        <div className="container-main flex flex-col items-center justify-between gap-2 py-4 text-[9px] font-medium uppercase tracking-wide text-[var(--nike-mute)] sm:flex-row">
+          <span>&copy; {new Date().getFullYear()} Telemart Clone. {t('rights')}</span>
+          <span>{t('contact')}</span>
+        </div>
       </div>
     </footer>
   );

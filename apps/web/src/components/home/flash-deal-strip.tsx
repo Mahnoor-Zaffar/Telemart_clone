@@ -24,7 +24,9 @@ function Countdown({ endsAt }: { endsAt: string }) {
     return () => clearInterval(id);
   }, [endsAt]);
 
-  return <span className="font-mono text-sm text-accent">{remaining}</span>;
+  return (
+    <span className="text-caption-sm font-mono text-[var(--nike-sale)]">{remaining}</span>
+  );
 }
 
 export function FlashDealStrip({ deals, locale }: { deals: FlashDeal[]; locale: string }) {
@@ -33,7 +35,7 @@ export function FlashDealStrip({ deals, locale }: { deals: FlashDeal[]; locale: 
       {deals.map((deal) => (
         <div key={deal.id} className="relative">
           <ProductCard product={deal.product} locale={locale} />
-          <div className="absolute bottom-16 left-2 rounded bg-accent px-2 py-0.5 text-xs text-white">
+          <div className="absolute left-2 top-2 rounded-[30px] bg-[var(--nike-sale)] px-2 py-0.5 text-xs font-medium text-white">
             -{deal.discountPercent}%
           </div>
           <div className="mt-1 text-center">

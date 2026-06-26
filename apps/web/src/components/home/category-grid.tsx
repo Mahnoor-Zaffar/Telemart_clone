@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import type { CategoryTree } from '@telemart/types';
+import { ProductImage } from '@/components/product/product-image';
 
 export function CategoryGrid({ categories, locale }: { categories: CategoryTree[]; locale: string }) {
   return (
@@ -9,14 +9,14 @@ export function CategoryGrid({ categories, locale }: { categories: CategoryTree[
         <Link
           key={cat.id}
           href={`/${locale}/${cat.slug}/${cat.children?.[0]?.slug ?? cat.slug}`}
-          className="group flex flex-col items-center rounded-lg border border-border bg-card p-4 transition-shadow hover:shadow-md"
+          className="group flex flex-col items-center bg-[var(--nike-canvas)] p-4 transition-opacity hover:opacity-80"
         >
-          <div className="relative mb-3 h-16 w-16 overflow-hidden rounded-full bg-secondary">
+          <div className="relative mb-3 h-20 w-20 overflow-hidden rounded-full nike-product-image-bg">
             {cat.imageUrl && (
-              <Image src={cat.imageUrl} alt={cat.name} fill className="object-cover" />
+              <ProductImage src={cat.imageUrl} alt={cat.name} fill className="object-cover" />
             )}
           </div>
-          <span className="text-center text-sm font-medium group-hover:text-primary">
+          <span className="text-body-strong text-center text-sm group-hover:underline">
             {locale === 'ur' && cat.nameUr ? cat.nameUr : cat.name}
           </span>
         </Link>

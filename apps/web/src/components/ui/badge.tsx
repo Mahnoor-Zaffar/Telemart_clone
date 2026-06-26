@@ -1,13 +1,22 @@
 import { cn } from '@/lib/utils';
 
-export function Badge({ className, variant = 'default', ...props }: React.HTMLAttributes<HTMLSpanElement> & { variant?: 'default' | 'success' | 'accent' | 'outline' }) {
+export function Badge({
+  className,
+  variant = 'default',
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & {
+  variant?: 'default' | 'promo' | 'sale' | 'outline' | 'success';
+}) {
   const variants = {
-    default: 'bg-primary/10 text-primary',
-    success: 'bg-green-100 text-green-800',
-    accent: 'bg-red-100 text-red-700',
-    outline: 'border border-border text-muted',
+    default:
+      'border border-[var(--nike-hairline)] bg-[var(--nike-canvas)] text-[var(--nike-ink)] text-xs font-medium rounded-[30px] px-3 py-1',
+    promo:
+      'border border-[var(--nike-hairline)] bg-[var(--nike-canvas)] text-[var(--nike-ink)] text-xs font-medium rounded-[30px] px-3 py-1',
+    sale: 'text-[var(--nike-sale)] text-sm font-medium bg-transparent p-0',
+    outline:
+      'border border-[var(--nike-hairline)] bg-transparent text-[var(--nike-ink)] text-xs font-medium rounded-[30px] px-3 py-1',
+    success:
+      'border border-[var(--nike-success)] bg-transparent text-[var(--nike-success)] text-xs font-medium rounded-[30px] px-3 py-1',
   };
-  return (
-    <span className={cn('inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium', variants[variant], className)} {...props} />
-  );
+  return <span className={cn('inline-flex items-center', variants[variant], className)} {...props} />;
 }

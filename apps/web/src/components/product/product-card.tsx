@@ -1,9 +1,11 @@
-import Image from 'next/image';
+'use client';
+
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import type { ProductCard as ProductCardType } from '@telemart/types';
 import { formatPrice, cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { ProductImage } from '@/components/product/product-image';
 
 interface ProductCardProps {
   product: ProductCardType;
@@ -11,41 +13,58 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, locale }: ProductCardProps) {
+  const t = useTranslations('product');
   const discount = product.compareAtPrice
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
 
   return (
-    <Link href={`/${locale}/product/${product.slug}`}>
-      <Card className="group overflow-hidden transition-shadow hover:shadow-md">
-        <div className="relative aspect-square overflow-hidden bg-secondary">
-          <Image
+    <Link href={`/${locale}/product/${product.slug}`} className="group block">
+      <article className="bg-[var(--nike-canvas)]">
+        <div className="relative aspect-square overflow-hidden nike-product-image-bg">
+          <ProductImage
             src={product.imageUrl}
             alt={product.title}
             fill
-            className="object-cover transition-transform group-hover:scale-105"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
             sizes="(max-width:768px) 50vw, 25vw"
           />
-          {discount > 0 && <Badge variant="accent" className="absolute left-2 top-2">-{discount}%</Badge>}
-          {product.isFlashDeal && <Badge variant="accent" className="absolute right-2 top-2">Flash</Badge>}
+          {product.isFlashDeal && (
+            <Badge variant="promo" className="absolute left-2 top-2">
+              Flash
+            </Badge>
+          )}
           {product.ptaStatus === 'APPROVED' && (
-            <Badge variant="success" className="absolute bottom-2 left-2">PTA</Badge>
+            <Badge variant="promo" className="absolute bottom-2 left-2">
+              PTA
+            </Badge>
           )}
         </div>
-        <CardContent className="space-y-2">
-          {product.brand && <p className="text-xs text-muted">{product.brand}</p>}
-          <h3 className="line-clamp-2 text-sm font-medium leading-snug">{product.title}</h3>
-          <div className="flex items-baseline gap-2">
-            <span className="text-lg font-bold text-primary">{formatPrice(product.price)}</span>
-            {product.compareAtPrice && (
-              <span className="text-sm text-muted line-through">{formatPrice(product.compareAtPrice)}</span>
+        <div className="mt-2 space-y-1">
+          {product.brand && (
+            <p className="text-caption-sm text-[var(--nike-mute)]">{product.brand}</p>
+          )}
+          <h3 className="text-body-strong line-clamp-2 text-sm leading-snug">{product.title}</h3>
+          <div className="flex flex-wrap items-baseline gap-2 pt-1">
+            {product.compareAtPrice && discount > 0 ? (
+              <>
+                <span className="text-body-strong text-[var(--nike-sale)]">
+                  {formatPrice(product.price)}
+                </span>
+                <span className="text-caption-sm text-[var(--nike-mute)] line-through">
+                  {formatPrice(product.compareAtPrice)}
+                </span>
+                <Badge variant="sale">-{discount}%</Badge>
+              </>
+            ) : (
+              <span className="text-body-strong">{formatPrice(product.price)}</span>
             )}
           </div>
-          <p className={cn('text-xs', product.inStock ? 'text-success' : 'text-accent')}>
-            {product.inStock ? 'In Stock' : 'Out of Stock'}
+          <p className={cn('text-caption-sm', product.inStock ? 'text-[var(--nike-success)]' : 'text-[var(--nike-sale)]')}>
+            {product.inStock ? t('inStock') : t('outOfStock')}
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </article>
     </Link>
   );
 }

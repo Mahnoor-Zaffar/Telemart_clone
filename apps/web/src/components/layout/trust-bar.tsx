@@ -1,8 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { ShieldCheck, Truck, Headphones, BadgeCheck, Package } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
+import { Truck, ShieldCheck, Headphones, BadgeCheck } from 'lucide-react';
 
+/** Compact trust strip — Nike utility-bar style */
 export function TrustBar() {
   const t = useTranslations('trust');
   const items = [
@@ -10,15 +12,14 @@ export function TrustBar() {
     { icon: ShieldCheck, label: t('returns') },
     { icon: Headphones, label: t('support') },
     { icon: BadgeCheck, label: t('genuine') },
-    { icon: Package, label: t('freeShipping') },
   ];
 
   return (
-    <div className="border-y border-border bg-card">
-      <div className="container-main flex flex-wrap items-center justify-center gap-4 py-3 text-xs sm:gap-8 sm:text-sm">
+    <div className="border-b border-[var(--nike-hairline-soft)] bg-[var(--nike-soft-cloud)]">
+      <div className="container-main flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-2">
         {items.map(({ icon: Icon, label }) => (
-          <div key={label} className="flex items-center gap-2 text-muted">
-            <Icon className="h-4 w-4 text-primary" />
+          <div key={label} className="flex items-center gap-2 text-caption-sm text-[var(--nike-ink)]">
+            <Icon className="h-3.5 w-3.5" strokeWidth={2} />
             <span>{label}</span>
           </div>
         ))}

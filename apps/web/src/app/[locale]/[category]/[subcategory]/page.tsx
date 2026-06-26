@@ -1,7 +1,84 @@
 import { setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
 import { serverFetch } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
+import { PlpFilters } from '@/components/catalog/plp-filters';
+import { PlpSortBar } from '@/components/catalog/plp-sort-bar';
 import type { ProductCard as ProductCardType, PaginatedResponse } from '@telemart/types';
+
+async function CategoryContent({
+  locale,
+  category,
+  subcategory,
+  searchParams,
+}: {
+  locale: string;
+  category: string;
+  subcategory: string;
+  searchParams: Record<string, string | undefined>;
+}) {
+  const t = await getTranslations('catalog');
+  const query = new URLSearchParams({ category, subcategory });
+  if (searchParams.sort) query.set('sort', searchParams.sort);
+  if (searchParams.brand) query.set('brand', searchParams.brand);
+  if (searchParams.minPrice) query.set('minPrice', searchParams.minPrice);
+  if (searchParams.maxPrice) query.set('maxPrice', searchParams.maxPrice);
+  if (searchParams.ptaStatus) query.set('ptaStatus', searchParams.ptaStatus);
+  if (searchParams.page) query.set('page', searchParams.page);
+
+  const [data, brands] = await Promise.all([
+    serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query.toString()}`),
+    serverFetch<Array<{ name: string; count: number }>>(
+      `/catalog/brands?subcategory=${subcategory}`,
+    ),
+  ]);
+
+  return (
+    <div className="flex gap-8">
+      <PlpFilters locale={locale} category={category} subcategory={subcategory} brands={brands} />
+      <div className="min-w-0 flex-1">
+        <h1 className="text-heading-xl mb-2 capitalize">{subcategory.replace(/-/g, ' ')}</h1>
+        <PlpSortBar locale={locale} category={category} subcategory={subcategory} total={data.total} />
+        {data.items.length === 0 ? (
+          <p className="py-12 text-center text-[var(--nike-mute)]">{t('noResults')}</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+            {data.items.map((p) => (
+              <ProductCard key={p.id} product={p} locale={locale} />
+            ))}
+          </div>
+        )}
+        {data.totalPages > 1 && (
+          <div className="mt-8 flex justify-center gap-2">
+            {Array.from({ length: Math.min(data.totalPages, 5) }, (_, i) => i + 1).map((p) => {
+              const params = new URLSearchParams();
+              if (searchParams.sort) params.set('sort', searchParams.sort);
+              if (searchParams.brand) params.set('brand', searchParams.brand);
+              if (searchParams.minPrice) params.set('minPrice', searchParams.minPrice);
+              if (searchParams.maxPrice) params.set('maxPrice', searchParams.maxPrice);
+              if (searchParams.ptaStatus) params.set('ptaStatus', searchParams.ptaStatus);
+              params.set('page', String(p));
+              return (
+                <a
+                  key={p}
+                  href={`?${params.toString()}`}
+                  className={
+                    data.page === p
+                      ? 'nike-filter-chip-active nike-filter-chip'
+                      : 'nike-filter-chip'
+                  }
+                >
+                  {p}
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default async function CategoryPage({
   params,
@@ -14,51 +91,11 @@ export default async function CategoryPage({
   const sp = await searchParams;
   setRequestLocale(locale);
 
-  const query = new URLSearchParams({ category, subcategory });
-  if (sp.sort) query.set('sort', sp.sort);
-  if (sp.brand) query.set('brand', sp.brand);
-  if (sp.minPrice) query.set('minPrice', sp.minPrice);
-  if (sp.maxPrice) query.set('maxPrice', sp.maxPrice);
-  if (sp.page) query.set('page', sp.page);
-
-  const data = await serverFetch<PaginatedResponse<ProductCardType>>(
-    `/catalog/products?${query.toString()}`,
-  );
-
   return (
     <div className="container-main py-8">
-      <h1 className="mb-6 text-2xl font-bold capitalize">
-        {subcategory.replace(/-/g, ' ')}
-      </h1>
-      <div className="mb-6 flex flex-wrap gap-2">
-        {['price_asc', 'price_desc', 'newest', 'popular', 'rating'].map((sort) => (
-          <a
-            key={sort}
-            href={`?sort=${sort}`}
-            className={`rounded-full border px-3 py-1 text-sm ${sp.sort === sort ? 'border-primary bg-primary/10 text-primary' : 'border-border'}`}
-          >
-            {sort.replace('_', ' ')}
-          </a>
-        ))}
-      </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {data.items.map((p) => (
-          <ProductCard key={p.id} product={p} locale={locale} />
-        ))}
-      </div>
-      {data.totalPages > 1 && (
-        <div className="mt-8 flex justify-center gap-2">
-          {Array.from({ length: data.totalPages }, (_, i) => i + 1).slice(0, 5).map((p) => (
-            <a
-              key={p}
-              href={`?page=${p}${sp.sort ? `&sort=${sp.sort}` : ''}`}
-              className={`rounded border px-3 py-1 text-sm ${data.page === p ? 'border-primary bg-primary text-white' : ''}`}
-            >
-              {p}
-            </a>
-          ))}
-        </div>
-      )}
+      <Suspense fallback={<div className="py-12 text-center">Loading...</div>}>
+        <CategoryContent locale={locale} category={category} subcategory={subcategory} searchParams={sp} />
+      </Suspense>
     </div>
   );
 }

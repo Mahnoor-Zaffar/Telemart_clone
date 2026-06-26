@@ -1,0 +1,50 @@
+/**
+ * Nike design tokens — see DESIGN.md
+ * Substitutes: Bebas Neue (display), Inter (UI)
+ */
+
+:root {
+  /* Colors */
+  --nike-ink: #111111;
+  --nike-on-primary: #ffffff;
+  --nike-canvas: #ffffff;
+  --nike-soft-cloud: #f5f5f5;
+  --nike-charcoal: #39393b;
+  --nike-ash: #4b4b4d;
+  --nike-mute: #707072;
+  --nike-stone: #9e9ea0;
+  --nike-hairline: #cacacb;
+  --nike-hairline-soft: #e5e5e5;
+  --nike-sale: #d30005;
+  --nike-success: #007d48;
+
+  /* Spacing (8px base) */
+  --nike-space-xs: 4px;
+  --nike-space-sm: 8px;
+  --nike-space-md: 12px;
+  --nike-space-lg: 18px;
+  --nike-space-xl: 24px;
+  --nike-space-section: 48px;
+
+  /* Radius */
+  --nike-radius-none: 0px;
+  --nike-radius-md: 24px;
+  --nike-radius-pill: 30px;
+  --nike-radius-full: 9999px;
+
+  /* Typography */
+  --font-display: var(--font-bebas), "Bebas Neue", sans-serif;
+  --font-ui: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* Mapped to app tokens */
+  --background: var(--nike-canvas);
+  --foreground: var(--nike-ink);
+  --primary: var(--nike-ink);
+  --primary-foreground: var(--nike-on-primary);
+  --secondary: var(--nike-soft-cloud);
+  --muted: var(--nike-mute);
+  --border: var(--nike-hairline);
+  --accent: var(--nike-sale);
+  --success: var(--nike-success);
+  --card: var(--nike-canvas);
+}

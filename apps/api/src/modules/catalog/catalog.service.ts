@@ -168,10 +168,27 @@ export class CatalogService {
     return products.map(toProductCard);
   }
 
-  async getBrands() {
+  async getBrands(subcategory?: string, category?: string) {
+    const where: Prisma.ProductWhereInput = { brand: { not: null } };
+
+    if (subcategory) {
+      const sub = await this.prisma.category.findUnique({ where: { slug: subcategory } });
+      if (sub) where.categoryId = sub.id;
+    } else if (category) {
+      const cat = await this.prisma.category.findFirst({
+        where: { OR: [{ slug: category }, { children: { some: { slug: category } } }] },
+      });
+      if (cat) {
+        const childIds = (
+          await this.prisma.category.findMany({ where: { parentId: cat.id }, select: { id: true } })
+        ).map((c) => c.id);
+        where.categoryId = { in: [cat.id, ...childIds] };
+      }
+    }
+
     const brands = await this.prisma.product.groupBy({
       by: ['brand'],
-      where: { brand: { not: null } },
+      where,
       _count: true,
     });
     return brands.filter((b) => b.brand).map((b) => ({ name: b.brand!, count: b._count }));

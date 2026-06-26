@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import slugify from 'slugify';
+import { getCategoryImage, getProductGallery, getProductImage } from './seed-images';
+import { seedMongo } from './seed-mongo';
 
 const prisma = new PrismaClient();
-
-const PLACEHOLDER = 'https://placehold.co/400x400/1e293b/94a3b8?text=';
 
 const categories = [
   { slug: 'mobiles', name: 'Mobiles & Tablets', nameUr: 'موبائل اور ٹیبلٹ', sortOrder: 1, children: [
@@ -117,13 +117,13 @@ async function main() {
   for (const cat of categories) {
     const parent = await prisma.category.upsert({
       where: { slug: cat.slug },
-      update: {},
+      update: { imageUrl: getCategoryImage(cat.slug) },
       create: {
         slug: cat.slug,
         name: cat.name,
         nameUr: cat.nameUr,
         sortOrder: cat.sortOrder,
-        imageUrl: `${PLACEHOLDER}${encodeURIComponent(cat.name)}`,
+        imageUrl: getCategoryImage(cat.slug),
       },
     });
     catMap[cat.slug] = parent.id;
@@ -143,12 +143,21 @@ async function main() {
     }
   }
 
-  const createdProducts = [];
+  const createdProducts: Array<{
+    id: string;
+    slug: string;
+    condition: string;
+    preOwnedGrade: string | null;
+    specs: unknown;
+    categoryId: string;
+  }> = [];
   for (const p of products) {
     const slug = slugify(p.title, { lower: true, strict: true });
+    const imageUrl = getProductImage(slug, p.cat);
+    const images = getProductGallery(slug, p.cat);
     const product = await prisma.product.upsert({
       where: { slug },
-      update: {},
+      update: { imageUrl, images },
       create: {
         slug,
         title: p.title,
@@ -156,8 +165,8 @@ async function main() {
         price: p.price,
         compareAtPrice: p.compareAt ?? undefined,
         stock: Math.floor(Math.random() * 50) + 5,
-        imageUrl: `${PLACEHOLDER}${encodeURIComponent(p.brand)}`,
-        images: [`${PLACEHOLDER}${encodeURIComponent(p.brand)}`],
+        imageUrl,
+        images,
         brand: p.brand,
         categoryId: catMap[p.cat],
         ptaStatus: p.pta as 'APPROVED' | 'NON_PTA' | 'NA',
@@ -172,8 +181,26 @@ async function main() {
         searchVector: `${p.title} ${p.brand} ${JSON.stringify(p.specs)}`.toLowerCase(),
       },
     });
-    createdProducts.push(product);
+    createdProducts.push({
+      id: product.id,
+      slug: product.slug,
+      condition: product.condition,
+      preOwnedGrade: product.preOwnedGrade,
+      specs: product.specs,
+      categoryId: product.categoryId,
+    });
   }
+
+  await seedMongo(
+    createdProducts.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      condition: p.condition,
+      preOwnedGrade: p.preOwnedGrade,
+      specs: p.specs,
+      categorySlug: Object.entries(catMap).find(([, id]) => id === p.categoryId)?.[0] ?? 'smartphones',
+    })),
+  );
 
   // Flash deals on first 4 products
   for (let i = 0; i < 4; i++) {

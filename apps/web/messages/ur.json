@@ -14,7 +14,9 @@
     "login": "لاگ ان",
     "register": "رجسٹر",
     "logout": "لاگ آؤٹ",
-    "vendorRegister": "فروخت کریں"
+    "vendorRegister": "فروخت کریں",
+    "help": "مدد",
+    "support": "مدد اور سپورٹ"
   },
   "home": {
     "heroTitle": "پاکستان کی پریمیم آن لائن دکان",
@@ -48,7 +50,40 @@
     "reviews": "جائزے",
     "deliveryEta": "ڈilivery: بڑے شہروں میں 2-4 دن",
     "warranty": "7 دن چیکنگ وارنٹی",
-    "preOwnedWarranty": "30 دن استعمال شدہ وارنٹی"
+    "preOwnedWarranty": "30 دن استعمال شدہ وارنٹی",
+    "addToWishlist": "پسندیدہ میں شامل",
+    "addedToWishlist": "پسندیدہ میں شامل ہو گیا",
+    "removedFromWishlist": "پسندیدہ سے ہٹایا",
+    "wishlistError": "پسندیدہ اپ ڈیٹ نہیں ہو سکی",
+    "writeReview": "جائزہ لکھیں",
+    "submitReview": "جائزہ جمع کروائیں",
+    "reviewSubmitted": "جائزہ جمع ہو گیا",
+    "reviewError": "جائزہ جمع نہیں ہو سکا",
+    "reviewPlaceholder": "اپنا تجربہ شیئر کریں...",
+    "rating": "درجہ بندی",
+    "noReviews": "ابھی کوئی جائزہ نہیں۔"
+  },
+  "catalog": {
+    "filters": "فلٹر",
+    "brand": "برانڈ",
+    "priceRange": "قیمت (PKR)",
+    "min": "کم از کم",
+    "max": "زیادہ سے زیادہ",
+    "apply": "لاگو",
+    "ptaStatus": "PTA حیثیت",
+    "ptaApproved": "PTA منظور",
+    "nonPta": "Non-PTA",
+    "clearFilters": "فلٹر صاف",
+    "sortBy": "ترتیب",
+    "noResults": "کوئی مصنوعات نہیں ملیں۔",
+    "results": "{count} مصنوعات",
+    "sort": {
+      "newest": "تازہ ترین",
+      "price_asc": "قیمت: کم سے زیادہ",
+      "price_desc": "قیمت: زیادہ سے کم",
+      "popular": "مقبول",
+      "rating": "بہترین درجہ"
+    }
   },
   "cart": {
     "title": "شاپنگ کارٹ",
@@ -93,13 +128,59 @@
     "returns": "واپسی کی پالیسی",
     "about": "ہمارے بارے میں",
     "contact": "رابطہ: 0347-3330011",
-    "rights": "جملہ حقوق محفوظ ہیں۔"
+    "rights": "جملہ حقوق محفوظ ہیں۔",
+    "shop": "خریداری",
+    "account": "اکاؤنٹ",
+    "tagline": "موبائل، الیکٹرانکس اور فیشن کی پریمیم آن لائن دکان۔",
+    "signIn": "سائن ان",
+    "joinUs": "شامل ہوں",
+    "sellOnTelemart": "Telemart پر فروخت"
+  },
+  "help": {
+    "title": "مدد مرکز",
+    "intro": "آرڈر، ڈilivery، ادائیگی اور واپسی کے جوابات۔",
+    "ordersTitle": "آرڈر اور ڈilivery",
+    "ordersBody": "میرے آرڈر سے ٹریک کریں۔ بڑے شہروں میں 2–4 کاروباری دن۔",
+    "paymentTitle": "ادائیگی",
+    "paymentBody": "COD، کارڈ، JazzCash، EasyPaisa (ڈیمو)۔",
+    "contactTitle": "رابطہ",
+    "contactBody": "support@telemart.local یا 0347-3330011 (ڈیمو)۔"
+  },
+  "returns": {
+    "title": "واپسی کی پالیسی",
+    "intro": "اہل نئی مصنوعات پر 7 دن چیک اور واپسی۔",
+    "eligibility": "مصنوعات غیر استعمال شدہ، اصل پیکنگ میں۔",
+    "process": "ڈilivery کے 7 دن میں رابطہ کریں۔",
+    "preOwned": "استعمال شدہ پر 30 دن وارنٹی — گریڈ تفصیلات دیکھیں۔"
+  },
+  "about": {
+    "title": "Telemart Clone کے بارے میں",
+    "intro": "telemart.pk سے متاثر پورٹ فolio پروجیکٹ۔",
+    "mission": "مفت-tier انفراسٹرکچر پر production-style monorepo۔",
+    "stack": "Next.js، NestJS، PostgreSQL، MongoDB، Redis۔"
+  },
+  "empty": {
+    "cartTitle": "کارٹ خالی ہے",
+    "cartBody": "مصنوعات براؤز کریں اور کارٹ میں شامل کریں۔",
+    "searchTitle": "کچھ نہیں ملا",
+    "searchBody": "دوسرے الفاظ آزمائیں۔",
+    "ordersTitle": "ابھی کوئی آرڈر نہیں",
+    "ordersBody": "آرڈر کی تاریخ یہاں ظاہر ہوگی۔",
+    "wishlistTitle": "پسندیدہ خالی",
+    "wishlistBody": "پسندیدہ مصنوعات محفوظ کریں۔",
+    "shopNow": "خریداری شروع"
   },
   "common": {
     "loading": "لوڈ ہو رہا ہے...",
     "error": "کچھ غلط ہو گیا",
     "save": "محفوظ",
     "cancel": "منسوخ",
-    "submit": "جمع کروائیں"
+    "submit": "جمع کروائیں",
+    "retry": "دوبارہ کوشش"
+  },
+  "search": {
+    "title": "تلاش کے نتائج",
+    "brands": "برانڈ",
+    "results": "\"{query}\" کے {count} نتائج"
   }
 }

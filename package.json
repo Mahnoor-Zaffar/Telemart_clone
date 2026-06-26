@@ -10,6 +10,7 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "db:generate": "npm run db:generate --workspace=@telemart/api",
+    "db:push": "npm run db:push --workspace=@telemart/api",
     "db:migrate": "npm run db:migrate --workspace=@telemart/api",
     "db:seed": "npm run db:seed --workspace=@telemart/api",
     "docker:up": "docker compose up -d",

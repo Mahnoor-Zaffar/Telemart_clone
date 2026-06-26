@@ -63,7 +63,7 @@ export class CatalogController {
   }
 
   @Get('brands')
-  getBrands() {
-    return this.catalogService.getBrands();
+  getBrands(@Query('subcategory') subcategory?: string, @Query('category') category?: string) {
+    return this.catalogService.getBrands(subcategory, category);
   }
 }

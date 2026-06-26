@@ -1,18 +1,5 @@
 @import "tailwindcss";
-
-:root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --accent: #dc2626;
-  --success: #16a34a;
-  --card: #ffffff;
-  --radius: 0.5rem;
-}
+@import "../styles/nike-tokens.css";
 
 @theme inline {
   --color-background: var(--background);
@@ -25,19 +12,132 @@
   --color-accent: var(--accent);
   --color-success: var(--success);
   --color-card: var(--card);
-  --font-sans: system-ui, -apple-system, sans-serif;
-}
-
-[dir="rtl"] {
-  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', system-ui, sans-serif;
+  --font-sans: var(--font-ui);
+  --font-display: var(--font-display);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  background: var(--nike-canvas);
+  color: var(--nike-ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+[dir="rtl"] {
+  font-family: system-ui, sans-serif;
 }
 
 .container-main {
-  @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-12;
+}
+
+/* Nike typography utilities */
+.text-display-campaign {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.text-heading-xl {
+  font-family: var(--font-ui);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.text-heading-lg {
+  font-family: var(--font-ui);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.text-body-strong {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.text-caption-md {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.text-caption-sm {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.section-gap {
+  margin-bottom: var(--nike-space-section);
+}
+
+/* Nike pill button base */
+.nike-pill-primary {
+  background: var(--nike-ink);
+  color: var(--nike-on-primary);
+  border-radius: var(--nike-radius-pill);
+  padding: 16px 32px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.nike-pill-primary:active {
+  transform: scale(0.98);
+  opacity: 0.85;
+}
+
+.nike-pill-secondary {
+  background: var(--nike-soft-cloud);
+  color: var(--nike-ink);
+  border-radius: var(--nike-radius-pill);
+  padding: 16px 32px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nike-search-pill {
+  background: var(--nike-soft-cloud);
+  border-radius: var(--nike-radius-md);
+  height: 40px;
+  padding: 8px 16px;
+}
+
+.nike-filter-chip {
+  border-radius: var(--nike-radius-pill);
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid var(--nike-hairline);
+  background: var(--nike-canvas);
+  color: var(--nike-ink);
+}
+
+.nike-filter-chip-active {
+  background: var(--nike-ink);
+  color: var(--nike-on-primary);
+  border-color: var(--nike-ink);
+}
+
+.nike-product-image-bg {
+  background: var(--nike-soft-cloud);
 }

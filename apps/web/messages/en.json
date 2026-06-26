@@ -14,7 +14,9 @@
     "login": "Login",
     "register": "Register",
     "logout": "Logout",
-    "vendorRegister": "Sell on Telemart"
+    "vendorRegister": "Sell on Telemart",
+    "help": "Help",
+    "support": "Help & Support"
   },
   "home": {
     "heroTitle": "Pakistan's Premium Online Store",
@@ -48,7 +50,40 @@
     "reviews": "Reviews",
     "deliveryEta": "Delivery: 2-4 days in major cities",
     "warranty": "7-day checking warranty",
-    "preOwnedWarranty": "30-day pre-owned warranty"
+    "preOwnedWarranty": "30-day pre-owned warranty",
+    "addToWishlist": "Add to wishlist",
+    "addedToWishlist": "Added to wishlist",
+    "removedFromWishlist": "Removed from wishlist",
+    "wishlistError": "Could not update wishlist",
+    "writeReview": "Write a review",
+    "submitReview": "Submit review",
+    "reviewSubmitted": "Review submitted",
+    "reviewError": "Could not submit review",
+    "reviewPlaceholder": "Share your experience...",
+    "rating": "Rating",
+    "noReviews": "No reviews yet. Be the first to review."
+  },
+  "catalog": {
+    "filters": "Filters",
+    "brand": "Brand",
+    "priceRange": "Price range (PKR)",
+    "min": "Min",
+    "max": "Max",
+    "apply": "Apply",
+    "ptaStatus": "PTA status",
+    "ptaApproved": "PTA Approved",
+    "nonPta": "Non-PTA",
+    "clearFilters": "Clear filters",
+    "sortBy": "Sort by",
+    "noResults": "No products match your filters.",
+    "results": "{count} products",
+    "sort": {
+      "newest": "Newest",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low",
+      "popular": "Most Popular",
+      "rating": "Top Rated"
+    }
   },
   "cart": {
     "title": "Shopping Cart",
@@ -93,13 +128,59 @@
     "returns": "Returns Policy",
     "about": "About Us",
     "contact": "Contact: 0347-3330011",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "shop": "Shop",
+    "account": "Account",
+    "tagline": "Pakistan's premium online store for mobiles, electronics, and fashion.",
+    "signIn": "Sign In",
+    "joinUs": "Join Us",
+    "sellOnTelemart": "Sell on Telemart"
+  },
+  "help": {
+    "title": "Help Center",
+    "intro": "Find answers about orders, delivery, payments, and returns.",
+    "ordersTitle": "Orders & delivery",
+    "ordersBody": "Track orders from My Orders. Standard delivery is 2–4 business days in major cities.",
+    "paymentTitle": "Payments",
+    "paymentBody": "We support Cash on Delivery, cards, JazzCash, EasyPaisa, and BNPL (demo mode in this clone).",
+    "contactTitle": "Contact",
+    "contactBody": "Email support@telemart.local or call 0347-3330011 (demo)."
+  },
+  "returns": {
+    "title": "Returns Policy",
+    "intro": "7-day check & return on eligible new products.",
+    "eligibility": "Products must be unused, in original packaging, with all accessories.",
+    "process": "Contact support within 7 days of delivery to initiate a return.",
+    "preOwned": "Pre-owned items have a separate 30-day warranty — see product page for grade details."
+  },
+  "about": {
+    "title": "About Telemart Clone",
+    "intro": "A portfolio e-commerce project inspired by telemart.pk.",
+    "mission": "Built to demonstrate a production-style monorepo on free-tier infrastructure.",
+    "stack": "Next.js storefront, NestJS API, PostgreSQL, MongoDB, Redis."
+  },
+  "empty": {
+    "cartTitle": "Your cart is empty",
+    "cartBody": "Browse our catalog and add items to get started.",
+    "searchTitle": "No results found",
+    "searchBody": "Try different keywords or clear filters.",
+    "ordersTitle": "No orders yet",
+    "ordersBody": "Your order history will appear here.",
+    "wishlistTitle": "Wishlist is empty",
+    "wishlistBody": "Save products you love for later.",
+    "shopNow": "Start shopping"
   },
   "common": {
     "loading": "Loading...",
     "error": "Something went wrong",
     "save": "Save",
     "cancel": "Cancel",
-    "submit": "Submit"
+    "submit": "Submit",
+    "retry": "Try again"
+  },
+  "search": {
+    "title": "Search Results",
+    "brands": "Brands",
+    "results": "{count} results for \"{query}\""
   }
 }
