@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "Home",
+    "mobiles": "Mobiles",
+    "laptops": "Laptops",
+    "electronics": "Electronics",
+    "fashion": "Fashion",
+    "preOwned": "Pre-Owned",
+    "flashDeals": "Flash Deals",
+    "blog": "Blog",
+    "search": "Search products...",
+    "account": "Account",
+    "cart": "Cart",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "vendorRegister": "Sell on Telemart"
+  },
+  "home": {
+    "heroTitle": "Pakistan's Premium Online Store",
+    "heroSubtitle": "Mobiles, Laptops, Electronics & Fashion — Delivered Nationwide",
+    "shopNow": "Shop Now",
+    "flashDeals": "Flash Deals",
+    "endsIn": "Ends in",
+    "shopByCategory": "Shop by Category",
+    "bestSellers": "Best Sellers",
+    "weeklyDeals": "Weekly Deals",
+    "under999": "Under Rs 999",
+    "shopByBrand": "Shop by Brand",
+    "preOwnedSpotlight": "Certified Pre-Owned",
+    "viewAll": "View All"
+  },
+  "trust": {
+    "cod": "Cash on Delivery",
+    "returns": "7-Day Check & Return",
+    "support": "24/7 Support",
+    "genuine": "100% Genuine Products",
+    "freeShipping": "Free Shipping over Rs 5,000"
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "buyNow": "Buy Now",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "ptaApproved": "PTA Approved",
+    "nonPta": "Non-PTA",
+    "specifications": "Specifications",
+    "reviews": "Reviews",
+    "deliveryEta": "Delivery: 2-4 days in major cities",
+    "warranty": "7-day checking warranty",
+    "preOwnedWarranty": "30-day pre-owned warranty"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "checkout": "Proceed to Checkout",
+    "continueShopping": "Continue Shopping",
+    "remove": "Remove"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "shipping": "Shipping",
+    "payment": "Payment",
+    "review": "Review",
+    "fullName": "Full Name",
+    "phone": "Phone (03XX-XXXXXXX)",
+    "email": "Email",
+    "city": "City",
+    "area": "Area",
+    "address": "Street Address",
+    "landmark": "Landmark",
+    "guestCheckout": "Guest Checkout",
+    "placeOrder": "Place Order",
+    "cod": "Cash on Delivery",
+    "card": "Credit/Debit Card",
+    "jazzcash": "JazzCash",
+    "easypaisa": "EasyPaisa",
+    "bnpl": "Buy Now Pay Later",
+    "orderSummary": "Order Summary",
+    "shippingFee": "Shipping",
+    "codFee": "COD Fee",
+    "total": "Total"
+  },
+  "account": {
+    "orders": "My Orders",
+    "wishlist": "Wishlist",
+    "addresses": "Addresses",
+    "profile": "Profile"
+  },
+  "footer": {
+    "help": "Help Center",
+    "returns": "Returns Policy",
+    "about": "About Us",
+    "contact": "Contact: 0347-3330011",
+    "rights": "All rights reserved."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit"
+  }
+}

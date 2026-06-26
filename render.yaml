@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm install && npm run db:generate --workspace=@telemart/api && npm run build --workspace=@telemart/api",
+  "startCommand": "npm run start --workspace=@telemart/api",
+  "healthCheckPath": "/api/v1/health"
+}

@@ -1,0 +1,26 @@
+{
+  "name": "telemart-clone",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "db:generate": "npm run db:generate --workspace=@telemart/api",
+    "db:migrate": "npm run db:migrate --workspace=@telemart/api",
+    "db:seed": "npm run db:seed --workspace=@telemart/api",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.4",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "npm@10.9.2"
+}

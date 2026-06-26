@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "home": "ہوم",
+    "mobiles": "موبائل",
+    "laptops": "لیپ ٹاپ",
+    "electronics": "الیکٹرانکس",
+    "fashion": "فیشن",
+    "preOwned": "استعمال شدہ",
+    "flashDeals": "فلیش ڈیلز",
+    "blog": "بلاگ",
+    "search": "مصنوعات تلاش کریں...",
+    "account": "اکاؤنٹ",
+    "cart": "کارٹ",
+    "login": "لاگ ان",
+    "register": "رجسٹر",
+    "logout": "لاگ آؤٹ",
+    "vendorRegister": "فروخت کریں"
+  },
+  "home": {
+    "heroTitle": "پاکستان کی پریمیم آن لائن دکان",
+    "heroSubtitle": "موبائل، لیپ ٹاپ، الیکٹرانکس اور فیشن — پورے پاکستان میں ڈilivery",
+    "shopNow": "ابھی خریدیں",
+    "flashDeals": "فلیش ڈیلز",
+    "endsIn": "ختم ہونے میں",
+    "shopByCategory": "زمرے کے لحاظ سے خریداری",
+    "bestSellers": "سب سے زیادہ فروخت",
+    "weeklyDeals": "ہفتہ وار ڈیلز",
+    "under999": "999 روپے سے کم",
+    "shopByBrand": "برانڈ کے لحاظ سے",
+    "preOwnedSpotlight": "تصدیق شدہ استعمال شدہ",
+    "viewAll": "سب دیکھیں"
+  },
+  "trust": {
+    "cod": "ادائیگی وصولی پر",
+    "returns": "7 دن چیک اور واپسی",
+    "support": "24/7 سپورٹ",
+    "genuine": "100% اصل مصنوعات",
+    "freeShipping": "5000 روپے سے زیادہ مفت شپنگ"
+  },
+  "product": {
+    "addToCart": "کارٹ میں شامل",
+    "buyNow": "ابھی خریدیں",
+    "inStock": "اسٹاک میں",
+    "outOfStock": "اسٹاک ختم",
+    "ptaApproved": "PTA منظور شدہ",
+    "nonPta": "Non-PTA",
+    "specifications": "خصوصیات",
+    "reviews": "جائزے",
+    "deliveryEta": "ڈilivery: بڑے شہروں میں 2-4 دن",
+    "warranty": "7 دن چیکنگ وارنٹی",
+    "preOwnedWarranty": "30 دن استعمال شدہ وارنٹی"
+  },
+  "cart": {
+    "title": "شاپنگ کارٹ",
+    "empty": "آپ کا کارٹ خالی ہے",
+    "subtotal": "ذیلی کل",
+    "checkout": "چیک آؤٹ",
+    "continueShopping": "خریداری جاری رکھیں",
+    "remove": "ہٹائیں"
+  },
+  "checkout": {
+    "title": "چیک آؤٹ",
+    "shipping": "شپنگ",
+    "payment": "ادائیگی",
+    "review": "جائزہ",
+    "fullName": "پورا نام",
+    "phone": "فون (03XX-XXXXXXX)",
+    "email": "ای میل",
+    "city": "شہر",
+    "area": "علاقہ",
+    "address": "پتہ",
+    "landmark": "لینڈ مارک",
+    "guestCheckout": "مہمان چیک آؤٹ",
+    "placeOrder": "آرڈر دیں",
+    "cod": "ادائیگی وصولی پر",
+    "card": "کریڈٹ/ڈیبٹ کارڈ",
+    "jazzcash": "جazzCash",
+    "easypaisa": "EasyPaisa",
+    "bnpl": "اب خریدیں بعد میں ادائیگی",
+    "orderSummary": "آرڈر خلاصہ",
+    "shippingFee": "شپنگ",
+    "codFee": "COD فیس",
+    "total": "کل"
+  },
+  "account": {
+    "orders": "میرے آرڈر",
+    "wishlist": "پسندیدہ",
+    "addresses": "پتے",
+    "profile": "پروفائل"
+  },
+  "footer": {
+    "help": "مدد مرکز",
+    "returns": "واپسی کی پالیسی",
+    "about": "ہمارے بارے میں",
+    "contact": "رابطہ: 0347-3330011",
+    "rights": "جملہ حقوق محفوظ ہیں۔"
+  },
+  "common": {
+    "loading": "لوڈ ہو رہا ہے...",
+    "error": "کچھ غلط ہو گیا",
+    "save": "محفوظ",
+    "cancel": "منسوخ",
+    "submit": "جمع کروائیں"
+  }
+}
