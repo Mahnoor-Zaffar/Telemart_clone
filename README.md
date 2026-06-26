@@ -16,11 +16,28 @@ A portfolio-grade e-commerce clone inspired by [telemart.pk](https://www.telemar
 
 ## Screenshots
 
-> Add screenshots to `docs/screenshots/` and embed them here for your portfolio.
+| Homepage | Product listing | Product detail |
+|----------|-----------------|----------------|
+| ![Home](docs/screenshots/home.png) | ![PLP](docs/screenshots/plp.png) | ![PDP](docs/screenshots/pdp.png) |
 
-| Homepage | Product detail | Cart |
-|----------|----------------|------|
-| _docs/screenshots/home.png_ | _docs/screenshots/pdp.png_ | _docs/screenshots/cart.png_ |
+| Cart | Admin dashboard |
+|------|-------------------|
+| ![Cart](docs/screenshots/cart.png) | ![Admin](docs/screenshots/admin.png) |
+
+> Regenerate locally: `npm run screenshots` (requires web + API running on ports 3000/3001)
+
+## Testing
+
+```bash
+# API e2e (requires Docker: postgres, redis, mongo)
+npm run docker:up
+set -a && source .env && set +a
+npm run db:push --workspace=@telemart/api && npm run db:seed --workspace=@telemart/api
+npm run test:api
+
+# Playwright buy flow (requires running dev servers)
+npm run test:e2e
+```
 
 ## Stack
 

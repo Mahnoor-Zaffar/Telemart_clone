@@ -7,6 +7,22 @@ import { Button } from '@/components/ui/button';
 import type { ProductCard as ProductCardType, CategoryTree, FlashDeal } from '@telemart/types';
 import { FlashDealStrip } from '@/components/home/flash-deal-strip';
 import { CategoryGrid } from '@/components/home/category-grid';
+import { siteMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'meta' });
+  return siteMetadata({
+    title: 'Telemart Clone',
+    description: t('homeDescription'),
+    path: `/${locale}`,
+  });
+}
 
 function SectionHeader({ title, href, linkLabel }: { title: string; href?: string; linkLabel?: string }) {
   return (

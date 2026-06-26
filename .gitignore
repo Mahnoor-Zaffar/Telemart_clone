@@ -9,7 +9,10 @@ dist
 .DS_Store
 coverage
 .vercel
-*.tsbuildinfo
+playwright-report/
+test-results/
 apps/api/prisma/seed.js
+apps/api/prisma/seed.js.map
+apps/api/prisma/seed.d.ts
 packages/types/src/*.js
 packages/types/src/*.js.map

@@ -12,6 +12,7 @@ import Link from 'next/link';
 
 export default function RegisterPage() {
   const t = useTranslations('nav');
+  const ta = useTranslations('auth');
   const { locale } = useParams<{ locale: string }>();
   const router = useRouter();
   const setUser = useAuthStore((s) => s.setUser);
@@ -35,7 +36,7 @@ export default function RegisterPage() {
       setUser(profile);
       router.push(`/${locale}/account/orders`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      setError(err instanceof Error ? err.message : ta('registerFailed'));
     } finally {
       setLoading(false);
     }
@@ -46,13 +47,13 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-4 rounded-lg border bg-card p-8">
         <h1 className="text-2xl font-bold">{t('register')}</h1>
         {error && <p className="text-sm text-accent">{error}</p>}
-        <Input placeholder="Full Name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
-        <Input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-        <Input placeholder="Phone (03XX)" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-        <Input type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+        <Input placeholder={ta('fullName')} value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
+        <Input type="email" placeholder={ta('email')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+        <Input placeholder={ta('phone')} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+        <Input type="password" placeholder={ta('password')} value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
         <Button type="submit" className="w-full" disabled={loading}>{t('register')}</Button>
         <p className="text-center text-sm">
-          Have an account?{' '}
+          {ta('haveAccount')}{' '}
           <Link href={`/${locale}/account/login`} className="text-primary hover:underline">{t('login')}</Link>
         </p>
       </form>

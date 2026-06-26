@@ -115,7 +115,14 @@
     "orderSummary": "Order Summary",
     "shippingFee": "Shipping",
     "codFee": "COD Fee",
-    "total": "Total"
+    "total": "Total",
+    "continue": "Continue",
+    "back": "Back",
+    "processing": "Processing...",
+    "orderFailed": "Order failed",
+    "bnplInstallments": "Pay in installments:",
+    "landmarkReview": "Landmark",
+    "paymentReview": "Payment"
   },
   "account": {
     "orders": "My Orders",
@@ -182,5 +189,101 @@
     "title": "Search Results",
     "brands": "Brands",
     "results": "{count} results for \"{query}\""
+  },
+  "meta": {
+    "homeDescription": "Shop mobiles, laptops, electronics and fashion — Pakistan's premium online store clone built with Next.js and NestJS.",
+    "productFallback": "Product"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "backHome": "Back to home"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "phone": "Phone (03XX)",
+    "noAccount": "No account?",
+    "haveAccount": "Have an account?",
+    "loginFailed": "Login failed",
+    "registerFailed": "Registration failed",
+    "demoHint": "Demo: customer@telemart.local / customer123"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "addProduct": "Add product",
+    "createFlash": "Create flash sale",
+    "pendingVendors": "Pending vendors",
+    "noVendors": "No pending vendors.",
+    "approve": "Approve",
+    "productCreated": "Product created",
+    "productFailed": "Failed to create product",
+    "vendorApproved": "Vendor approved",
+    "vendorFailed": "Failed to approve vendor",
+    "flashCreated": "Flash sale created",
+    "flashFailed": "Failed to create flash sale",
+    "titleLabel": "Title",
+    "description": "Description",
+    "price": "Price (PKR)",
+    "stock": "Stock",
+    "imageUrl": "Image URL",
+    "brand": "Brand",
+    "categoryId": "Category ID (from DB)",
+    "productId": "Product ID",
+    "discount": "Discount %",
+    "duration": "Duration (hours)",
+    "maxStock": "Max stock",
+    "createProduct": "Create product",
+    "startFlash": "Start flash sale"
+  },
+  "vendor": {
+    "title": "Sell on Telemart",
+    "subtitle": "Join Pakistan's fastest growing marketplace",
+    "businessName": "Business Name",
+    "fullName": "Your Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "cnic": "CNIC (35202-XXXXXXX-X)",
+    "address": "Business Address",
+    "password": "Password",
+    "about": "Tell us about your business",
+    "submit": "Submit Application",
+    "successTitle": "Application Submitted!",
+    "successBody": "Our team will review your application within 2-3 business days.",
+    "backHome": "Back to Home",
+    "registerFailed": "Registration failed"
+  },
+  "orderDetail": {
+    "title": "Order {number}",
+    "status": "Status",
+    "payment": "Payment",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "codFee": "COD Fee",
+    "total": "Total",
+    "loadError": "Could not load order"
+  },
+  "checkoutSuccess": {
+    "title": "Order Placed!",
+    "orderNumber": "Order #{number}",
+    "confirmation": "You will receive a confirmation email shortly.",
+    "viewOrders": "View Orders"
+  },
+  "preOwned": {
+    "title": "Certified Pre-Owned",
+    "subtitle": "30-day warranty · Quality inspected · Graded A/B/C",
+    "usedPhones": "used phones",
+    "usedLaptops": "used laptops"
+  },
+  "blog": {
+    "title": "Blog"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "loginPrompt": "Login"
   }
 }

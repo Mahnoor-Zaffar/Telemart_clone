@@ -115,7 +115,14 @@
     "orderSummary": "آرڈر خلاصہ",
     "shippingFee": "شپنگ",
     "codFee": "COD فیس",
-    "total": "کل"
+    "total": "کل",
+    "continue": "جاری رکھیں",
+    "back": "واپس",
+    "processing": "پروسیسنگ...",
+    "orderFailed": "آرڈر ناکام",
+    "bnplInstallments": "قسطوں میں ادائیگی:",
+    "landmarkReview": "لینڈ مارک",
+    "paymentReview": "ادائیگی"
   },
   "account": {
     "orders": "میرے آرڈر",
@@ -182,5 +189,101 @@
     "title": "تلاش کے نتائج",
     "brands": "برانڈ",
     "results": "\"{query}\" کے {count} نتائج"
+  },
+  "meta": {
+    "homeDescription": "موبائل، لیپ ٹاپ، الیکٹرانکس اور فیشن — Next.js اور NestJS پر بنایا گیا۔",
+    "productFallback": "مصنوعات"
+  },
+  "notFound": {
+    "title": "صفحہ نہیں ملا",
+    "description": "یہ صفحہ موجود نہیں یا منتقل ہو چuka ہے۔",
+    "backHome": "ہوم پر واپس"
+  },
+  "auth": {
+    "email": "ای میل",
+    "password": "پاس ورڈ",
+    "fullName": "پورا نام",
+    "phone": "فون (03XX)",
+    "noAccount": "اکاؤنٹ نہیں؟",
+    "haveAccount": "اکاؤنٹ ہے؟",
+    "loginFailed": "لاگ ان ناکام",
+    "registerFailed": "رجسٹریشن ناکام",
+    "demoHint": "ڈیمو: customer@telemart.local / customer123"
+  },
+  "admin": {
+    "title": "ایڈمن ڈیش بورڈ",
+    "addProduct": "مصنوعات شامل",
+    "createFlash": "فلیش سیل بنائیں",
+    "pendingVendors": "زیر التواء vendors",
+    "noVendors": "کوئی زیر التواء vendor نہیں۔",
+    "approve": "منظور",
+    "productCreated": "مصنوعات بن گئی",
+    "productFailed": "مصنوعات نہیں بن سکی",
+    "vendorApproved": "Vendor منظور",
+    "vendorFailed": "منظوری ناکام",
+    "flashCreated": "فلیش سیل بن گئی",
+    "flashFailed": "فلیش سیل ناکام",
+    "titleLabel": "عنوان",
+    "description": "تفصیل",
+    "price": "قیمت (PKR)",
+    "stock": "اسٹاک",
+    "imageUrl": "تصویر URL",
+    "brand": "برانڈ",
+    "categoryId": "Category ID",
+    "productId": "Product ID",
+    "discount": "رعایت %",
+    "duration": "مدت (گھنٹے)",
+    "maxStock": "زیادہ سے زیادہ اسٹاک",
+    "createProduct": "مصنوعات بنائیں",
+    "startFlash": "فلیش سیل شروع"
+  },
+  "vendor": {
+    "title": "Telemart پر فروخت",
+    "subtitle": "پاکستان کی تیز تر بڑھتی مارکیٹ پلیس",
+    "businessName": "کاروبار کا نام",
+    "fullName": "آپ کا پورا نام",
+    "email": "ای میل",
+    "phone": "فون",
+    "cnic": "CNIC",
+    "address": "کاروباری پتہ",
+    "password": "پاس ورڈ",
+    "about": "اپنے کاروبار کے بارے میں",
+    "submit": "درخواست جمع کروائیں",
+    "successTitle": "درخواست جمع!",
+    "successBody": "2-3 کاروباری دنوں میں جائزہ لیا جائے گا۔",
+    "backHome": "ہوم",
+    "registerFailed": "رجسٹریشن ناکام"
+  },
+  "orderDetail": {
+    "title": "آرڈر {number}",
+    "status": "حیثیت",
+    "payment": "ادائیگی",
+    "subtotal": "ذیلی کل",
+    "shipping": "شپنگ",
+    "codFee": "COD فیس",
+    "total": "کل",
+    "loadError": "آرڈر لوڈ نہیں ہو سکا"
+  },
+  "checkoutSuccess": {
+    "title": "آرڈر ہو گیا!",
+    "orderNumber": "آرڈر #{number}",
+    "confirmation": "تصدیقی ای میل جلد بھیجی جائے گی۔",
+    "viewOrders": "آرڈر دیکھیں"
+  },
+  "preOwned": {
+    "title": "تصدیق شدہ استعمال شدہ",
+    "subtitle": "30 دن وارنٹی · معائنہ شدہ · گریڈ A/B/C",
+    "usedPhones": "استعمال شدہ فون",
+    "usedLaptops": "استعمال شدہ لیپ ٹاپ"
+  },
+  "blog": {
+    "title": "بلاگ"
+  },
+  "profile": {
+    "title": "پروفائل",
+    "name": "نام",
+    "email": "ای میل",
+    "role": "کردار",
+    "loginPrompt": "لاگ ان"
   }
 }

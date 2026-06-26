@@ -23,7 +23,13 @@ export function AddToCartButton({ productId, disabled }: { productId: string; di
   }
 
   return (
-    <Button size="lg" className="w-full sm:w-auto" disabled={disabled || loading} onClick={handleAdd}>
+    <Button
+      size="lg"
+      className="w-full sm:w-auto"
+      disabled={disabled || loading}
+      onClick={handleAdd}
+      data-testid="add-to-cart"
+    >
       {added ? 'Added!' : t('addToCart')}
     </Button>
   );

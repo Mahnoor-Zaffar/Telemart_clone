@@ -1,4 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { serverFetch } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
 import type { ProductCard as ProductCardType, PaginatedResponse } from '@telemart/types';
@@ -11,6 +12,7 @@ export default async function PreOwnedPage({
   const { locale, subcategory: subcategoryParts } = await params;
   const subcategory = subcategoryParts?.[0];
   setRequestLocale(locale);
+  const t = await getTranslations('preOwned');
 
   const query = subcategory
     ? `subcategory=${subcategory}&condition=PRE_OWNED`
@@ -18,18 +20,23 @@ export default async function PreOwnedPage({
 
   const data = await serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query}`);
 
+  const subs = [
+    { slug: 'used-phones', label: t('usedPhones') },
+    { slug: 'used-laptops', label: t('usedLaptops') },
+  ];
+
   return (
     <div className="container-main py-8">
-      <h1 className="mb-2 text-2xl font-bold">Certified Pre-Owned</h1>
-      <p className="mb-6 text-muted">30-day warranty · Quality inspected · Graded A/B/C</p>
+      <h1 className="text-heading-xl mb-2">{t('title')}</h1>
+      <p className="mb-6 text-[var(--nike-mute)]">{t('subtitle')}</p>
       <div className="mb-6 flex gap-2">
-        {['used-phones', 'used-laptops'].map((sub) => (
+        {subs.map(({ slug, label }) => (
           <a
-            key={sub}
-            href={`/${locale}/pre-owned/${sub}`}
-            className={`rounded-full border px-4 py-1 text-sm capitalize ${subcategory === sub ? 'border-primary bg-primary/10' : ''}`}
+            key={slug}
+            href={`/${locale}/pre-owned/${slug}`}
+            className={subcategory === slug ? 'nike-filter-chip-active nike-filter-chip' : 'nike-filter-chip'}
           >
-            {sub.replace(/-/g, ' ')}
+            {label}
           </a>
         ))}
       </div>

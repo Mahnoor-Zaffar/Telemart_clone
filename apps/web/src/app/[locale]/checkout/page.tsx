@@ -8,12 +8,15 @@ import { formatPrice, getAuthToken, getCartId } from '@/lib/utils';
 import { apiFetch } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { EmptyState } from '@/components/ui/empty-state';
+import { toast } from '@/components/ui/toast';
 import { PAKISTAN_CITIES, COD_FEE, FREE_SHIPPING_THRESHOLD, PaymentMethod } from '@telemart/types';
 
 const STEPS = ['shipping', 'payment', 'review'] as const;
 
 export default function CheckoutPage() {
   const t = useTranslations('checkout');
+  const te = useTranslations('empty');
   const { locale } = useParams<{ locale: string }>();
   const router = useRouter();
   const items = useCartStore((s) => s.items);
@@ -48,7 +51,7 @@ export default function CheckoutPage() {
       });
       router.push(`/${locale}/checkout/success?order=${result.orderNumber}`);
     } catch (err) {
-      alert(err instanceof Error ? err.message : 'Order failed');
+      toast(err instanceof Error ? err.message : t('orderFailed'), 'error');
     } finally {
       setLoading(false);
     }
@@ -56,8 +59,13 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="container-main py-16 text-center">
-        <p>Cart is empty</p>
+      <div className="container-main">
+        <EmptyState
+          title={te('cartTitle')}
+          description={te('cartBody')}
+          actionLabel={te('shopNow')}
+          actionHref={`/${locale}/mobiles/smartphones`}
+        />
       </div>
     );
   }
@@ -95,7 +103,7 @@ export default function CheckoutPage() {
               <Input placeholder={t('address')} value={address.streetAddress} onChange={(e) => setAddress({ ...address, streetAddress: e.target.value })} />
               <Input placeholder={t('landmark')} value={address.landmark} onChange={(e) => setAddress({ ...address, landmark: e.target.value })} />
               <Button onClick={() => setStep(1)} disabled={!address.fullName || !address.phone || !address.streetAddress}>
-                Continue
+                {t('continue')}
               </Button>
             </div>
           )}
@@ -117,8 +125,8 @@ export default function CheckoutPage() {
                 </label>
               ))}
               {paymentMethod === PaymentMethod.BNPL && (
-                <div className="rounded-lg bg-secondary p-4">
-                  <p className="mb-2 text-sm">Pay in installments:</p>
+                <div className="rounded-lg bg-[var(--nike-soft-cloud)] p-4">
+                  <p className="mb-2 text-sm">{t('bnplInstallments')}</p>
                   <div className="flex gap-4">
                     {[4, 6].map((n) => (
                       <button
@@ -133,8 +141,8 @@ export default function CheckoutPage() {
                 </div>
               )}
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(0)}>Back</Button>
-                <Button onClick={() => setStep(2)}>Continue</Button>
+                <Button variant="outline" onClick={() => setStep(0)}>{t('back')}</Button>
+                <Button onClick={() => setStep(2)}>{t('continue')}</Button>
               </div>
             </div>
           )}
@@ -145,13 +153,13 @@ export default function CheckoutPage() {
               <div className="text-sm space-y-1">
                 <p><strong>{address.fullName}</strong> — {address.phone}</p>
                 <p>{address.streetAddress}, {address.area}, {address.city}</p>
-                {address.landmark && <p>Landmark: {address.landmark}</p>}
-                <p className="mt-2">Payment: {paymentMethod}</p>
+                {address.landmark && <p>{t('landmarkReview')}: {address.landmark}</p>}
+                <p className="mt-2">{t('paymentReview')}: {paymentMethod}</p>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={() => setStep(1)}>Back</Button>
+                <Button variant="outline" onClick={() => setStep(1)}>{t('back')}</Button>
                 <Button onClick={placeOrder} disabled={loading}>
-                  {loading ? 'Processing...' : t('placeOrder')}
+                  {loading ? t('processing') : t('placeOrder')}
                 </Button>
               </div>
             </div>

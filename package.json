@@ -14,9 +14,13 @@
     "db:migrate": "npm run db:migrate --workspace=@telemart/api",
     "db:seed": "npm run db:seed --workspace=@telemart/api",
     "docker:up": "docker compose up -d",
-    "docker:down": "docker compose down"
+    "docker:down": "docker compose down",
+    "test:api": "npm run test:e2e --workspace=@telemart/api",
+    "test:e2e": "playwright test",
+    "screenshots": "playwright test e2e/screenshots.spec.ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.2",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   },

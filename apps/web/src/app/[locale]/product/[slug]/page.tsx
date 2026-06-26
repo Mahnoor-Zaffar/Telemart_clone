@@ -9,6 +9,27 @@ import { WishlistButton } from '@/components/product/wishlist-button';
 import { ProductGallery } from '@/components/product/product-gallery';
 import { ProductReviewsSection } from '@/components/product/product-reviews-section';
 import type { ProductDetail, Review } from '@telemart/types';
+import { siteMetadata } from '@/lib/metadata';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  try {
+    const product = await serverFetch<ProductDetail>(`/catalog/products/${slug}`, 300);
+    return siteMetadata({
+      title: product.title,
+      description: product.description.slice(0, 160),
+      path: `/${locale}/product/${slug}`,
+    });
+  } catch {
+    const t = await getTranslations({ locale, namespace: 'meta' });
+    return siteMetadata({ title: t('productFallback'), description: t('homeDescription') });
+  }
+}
 
 export default async function ProductPage({
   params,
