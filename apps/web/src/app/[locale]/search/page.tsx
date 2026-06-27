@@ -17,6 +17,7 @@ export default async function SearchPage({
   setRequestLocale(locale);
   const t = await getTranslations('search');
   const te = await getTranslations('empty');
+  const tp = await getTranslations('product');
 
   const data = q
     ? await serverFetch<SearchResult>(`/search?q=${encodeURIComponent(q)}&page=${page}`)
@@ -45,7 +46,15 @@ export default async function SearchPage({
             />
           ) : (
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {data.products.map((p) => <ProductCard key={p.id} product={p} locale={locale} />)}
+              {data.products.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={p}
+                  locale={locale}
+                  inStockLabel={tp('inStock')}
+                  outOfStockLabel={tp('outOfStock')}
+                />
+              ))}
             </div>
           )}
         </div>

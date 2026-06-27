@@ -6,6 +6,8 @@ import { routing } from '@/i18n/routing';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { TrustBar } from '@/components/layout/trust-bar';
+import { UtilityBar } from '@/components/layout/utility-bar';
+import { CartSync } from '@/components/cart/cart-sync';
 import { Toaster } from '@/components/ui/toast';
 import '../globals.css';
 
@@ -21,8 +23,6 @@ const inter = Inter({
   variable: '--font-inter',
   display: 'swap',
 });
-
-export const dynamic = 'force-dynamic';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -49,6 +49,8 @@ export default async function LocaleLayout({
     >
       <body className="flex min-h-screen flex-col bg-[var(--nike-canvas)] text-[var(--nike-ink)] antialiased">
         <NextIntlClientProvider messages={messages}>
+          <CartSync />
+          <UtilityBar />
           <Header />
           <TrustBar />
           <main className="flex-1">{children}</main>

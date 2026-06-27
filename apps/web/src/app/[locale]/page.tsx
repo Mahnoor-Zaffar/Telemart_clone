@@ -41,14 +41,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations('home');
+  const tp = await getTranslations('product');
 
   const [featured, weekly, under999, flashDeals, categories, brands] = await Promise.all([
-    serverFetch<ProductCardType[]>('/catalog/featured'),
-    serverFetch<ProductCardType[]>('/catalog/weekly-deals'),
-    serverFetch<ProductCardType[]>('/catalog/under-999'),
-    serverFetch<FlashDeal[]>('/flash-deals'),
-    serverFetch<CategoryTree[]>('/catalog/categories'),
-    serverFetch<Array<{ name: string; count: number }>>('/catalog/brands'),
+    serverFetch<ProductCardType[]>('/catalog/featured', 60, []),
+    serverFetch<ProductCardType[]>('/catalog/weekly-deals', 60, []),
+    serverFetch<ProductCardType[]>('/catalog/under-999', 60, []),
+    serverFetch<FlashDeal[]>('/flash-deals', 60, []),
+    serverFetch<CategoryTree[]>('/catalog/categories', 60, []),
+    serverFetch<Array<{ name: string; count: number }>>('/catalog/brands', 60, []),
   ]);
 
   return (
@@ -74,7 +75,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             href={`/${locale}/deals/flash`}
             linkLabel={t('viewAll')}
           />
-          <FlashDealStrip deals={flashDeals} locale={locale} />
+          <FlashDealStrip
+            deals={flashDeals}
+            locale={locale}
+            inStockLabel={tp('inStock')}
+            outOfStockLabel={tp('outOfStock')}
+          />
         </section>
       )}
 
@@ -87,7 +93,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <SectionHeader title={t('bestSellers')} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {featured.map((p) => (
-            <ProductCard key={p.id} product={p} locale={locale} />
+            <ProductCard key={p.id} product={p} locale={locale} inStockLabel={tp('inStock')} outOfStockLabel={tp('outOfStock')} />
           ))}
         </div>
       </section>
@@ -97,7 +103,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <SectionHeader title={t('weeklyDeals')} />
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {weekly.map((p) => (
-              <ProductCard key={p.id} product={p} locale={locale} />
+              <ProductCard key={p.id} product={p} locale={locale} inStockLabel={tp('inStock')} outOfStockLabel={tp('outOfStock')} />
             ))}
           </div>
         </div>
@@ -122,7 +128,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <SectionHeader title={t('under999')} />
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
           {under999.map((p) => (
-            <ProductCard key={p.id} product={p} locale={locale} />
+            <ProductCard key={p.id} product={p} locale={locale} inStockLabel={tp('inStock')} outOfStockLabel={tp('outOfStock')} />
           ))}
         </div>
       </section>

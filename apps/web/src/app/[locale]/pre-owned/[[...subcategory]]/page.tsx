@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
-import { serverFetch } from '@/lib/api';
+import { serverFetch, emptyPaginated } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
 import type { ProductCard as ProductCardType, PaginatedResponse } from '@telemart/types';
 
@@ -13,12 +13,13 @@ export default async function PreOwnedPage({
   const subcategory = subcategoryParts?.[0];
   setRequestLocale(locale);
   const t = await getTranslations('preOwned');
+  const tp = await getTranslations('product');
 
   const query = subcategory
     ? `subcategory=${subcategory}&condition=PRE_OWNED`
     : 'category=pre-owned&condition=PRE_OWNED';
 
-  const data = await serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query}`);
+  const data = await serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query}`, 60, emptyPaginated());
 
   const subs = [
     { slug: 'used-phones', label: t('usedPhones') },
@@ -41,7 +42,15 @@ export default async function PreOwnedPage({
         ))}
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {data.items.map((p) => <ProductCard key={p.id} product={p} locale={locale} />)}
+        {data.items.map((p) => (
+          <ProductCard
+            key={p.id}
+            product={p}
+            locale={locale}
+            inStockLabel={tp('inStock')}
+            outOfStockLabel={tp('outOfStock')}
+          />
+        ))}
       </div>
     </div>
   );

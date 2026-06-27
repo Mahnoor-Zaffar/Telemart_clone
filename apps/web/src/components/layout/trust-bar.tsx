@@ -1,12 +1,9 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 import { Truck, ShieldCheck, Headphones, BadgeCheck } from 'lucide-react';
 
 /** Compact trust strip — Nike utility-bar style */
-export function TrustBar() {
-  const t = useTranslations('trust');
+export async function TrustBar() {
+  const t = await getTranslations('trust');
   const items = [
     { icon: Truck, label: t('cod') },
     { icon: ShieldCheck, label: t('returns') },

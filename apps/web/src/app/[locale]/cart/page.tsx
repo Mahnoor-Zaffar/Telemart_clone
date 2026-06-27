@@ -8,6 +8,7 @@ import { useCartStore } from '@/lib/store';
 import { formatPrice } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
+import { CartPageSkeleton } from '@/components/skeleton/cart-page-skeleton';
 import { useParams } from 'next/navigation';
 
 export default function CartPage() {
@@ -23,7 +24,7 @@ export default function CartPage() {
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
 
   if (loading && items.length === 0) {
-    return <div className="container-main py-16 text-center">{t('empty')}</div>;
+    return <CartPageSkeleton />;
   }
 
   if (items.length === 0) {

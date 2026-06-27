@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useParams, useRouter } from 'next/navigation';
 import { useCartStore } from '@/lib/store';
@@ -9,6 +9,7 @@ import { apiFetch } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { EmptyState } from '@/components/ui/empty-state';
+import { CheckoutPageSkeleton } from '@/components/skeleton/checkout-page-skeleton';
 import { toast } from '@/components/ui/toast';
 import { PAKISTAN_CITIES, COD_FEE, FREE_SHIPPING_THRESHOLD, PaymentMethod } from '@telemart/types';
 
@@ -19,7 +20,13 @@ export default function CheckoutPage() {
   const te = useTranslations('empty');
   const { locale } = useParams<{ locale: string }>();
   const router = useRouter();
-  const items = useCartStore((s) => s.items);
+  const { items, fetchCart, loading: cartLoading, initialized } = useCartStore();
+
+  useEffect(() => {
+    if (!initialized) {
+      void fetchCart();
+    }
+  }, [fetchCart, initialized]);
 
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -55,6 +62,10 @@ export default function CheckoutPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!initialized || (cartLoading && items.length === 0)) {
+    return <CheckoutPageSkeleton />;
   }
 
   if (items.length === 0) {

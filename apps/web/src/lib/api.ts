@@ -1,3 +1,5 @@
+import type { PaginatedResponse } from '@telemart/types';
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 type FetchOptions = RequestInit & { cartId?: string; token?: string | null; skipRefresh?: boolean };
@@ -63,3 +65,11 @@ export async function serverFetch<T>(path: string, revalidate = 60, fallback?: T
     throw new Error(`Failed to fetch ${path}`);
   }
 }
+
+export const emptyPaginated = <T>(): PaginatedResponse<T> => ({
+  items: [],
+  total: 0,
+  page: 1,
+  limit: 20,
+  totalPages: 0,
+});

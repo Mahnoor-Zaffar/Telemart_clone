@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useCartStore, useAuthStore } from '@/lib/store';
 import { Link as IntlLink } from '@/i18n/navigation';
-import { UtilityBar } from './utility-bar';
 
 export function Header() {
   const t = useTranslations('nav');
@@ -17,8 +16,8 @@ export function Header() {
   const pathname = usePathname();
   const [query, setQuery] = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
-  const cartItems = useCartStore((s) => s.items);
-  const itemCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
+  const itemCount = useCartStore((s) => s.itemCount);
+  const cartInitialized = useCartStore((s) => s.initialized);
   const user = useAuthStore((s) => s.user);
 
   const navLinks = [
@@ -39,7 +38,6 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--nike-canvas)]">
-      <UtilityBar />
       <div className="border-b border-[var(--nike-hairline-soft)] shadow-[inset_0_-1px_0_var(--nike-hairline-soft)]">
         <div className="container-main flex h-14 items-center gap-4 md:h-16">
           <button
@@ -108,7 +106,7 @@ export function Header() {
               aria-label={t('cart')}
             >
               <ShoppingBag className="h-5 w-5" />
-              {itemCount > 0 && (
+              {cartInitialized && itemCount > 0 && (
                 <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--nike-ink)] px-1 text-[10px] font-medium text-white">
                   {itemCount}
                 </span>
