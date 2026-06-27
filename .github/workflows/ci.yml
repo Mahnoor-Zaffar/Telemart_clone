@@ -64,6 +64,7 @@ jobs:
       - run: npm ci
       - run: npm run build --workspace=@telemart/types
       - run: npm run db:generate --workspace=@telemart/api
+      - run: cp .env.example .env
       - run: npm run db:push --workspace=@telemart/api
       - run: npm run db:seed --workspace=@telemart/api
       - run: npm run test:api

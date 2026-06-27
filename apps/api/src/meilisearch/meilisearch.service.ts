@@ -1,12 +1,6 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-// CommonJS interop for meilisearch ESM package
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { Meilisearch } = require('meilisearch') as {
-  Meilisearch: new (opts: { host: string; apiKey?: string }) => MeilisearchClient;
-};
-
 type MeilisearchIndex = {
   updateFilterableAttributes(attrs: string[]): Promise<void>;
   updateSortableAttributes(attrs: string[]): Promise<void>;
@@ -51,6 +45,10 @@ export class MeilisearchService implements OnModuleInit {
   constructor(private config: ConfigService) {
     const host = this.config.get<string>('MEILISEARCH_HOST');
     if (host) {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { Meilisearch } = require('meilisearch') as {
+        Meilisearch: new (opts: { host: string; apiKey?: string }) => MeilisearchClient;
+      };
       this.client = new Meilisearch({
         host,
         apiKey: this.config.get<string>('MEILISEARCH_API_KEY') || undefined,

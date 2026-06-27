@@ -7,6 +7,7 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^@telemart/types$": "<rootDir>/../../../packages/types/src/index.ts"
+    "^@telemart/types$": "<rootDir>/../../../packages/types/src/index.ts",
+    "^meilisearch$": "<rootDir>/mocks/meilisearch.mock.ts"
   }
 }
