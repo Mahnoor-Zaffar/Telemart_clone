@@ -48,7 +48,7 @@ export default function CartPage() {
           {items.map((item) => (
             <div key={item.productId} className="flex gap-4 border border-[var(--nike-hairline-soft)] p-4">
               <div className="relative h-20 w-20 shrink-0 overflow-hidden nike-product-image-bg">
-                <ProductImage src={item.imageUrl} alt={item.title} fill className="object-cover" />
+                <ProductImage src={item.imageUrl} alt={item.title} fill className="object-cover" sizes="80px" />
               </div>
               <div className="flex-1">
                 <Link href={`/${locale}/product/${item.slug}`} className="text-body-strong hover:underline">

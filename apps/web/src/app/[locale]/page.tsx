@@ -3,10 +3,10 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { serverFetch } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
-import { Button } from '@/components/ui/button';
 import type { ProductCard as ProductCardType, CategoryTree, FlashDeal } from '@telemart/types';
 import { FlashDealStrip } from '@/components/home/flash-deal-strip';
 import { CategoryGrid } from '@/components/home/category-grid';
+import { PromoCarousel } from '@/components/home/promo-carousel';
 import { siteMetadata } from '@/lib/metadata';
 import type { Metadata } from 'next';
 
@@ -52,21 +52,36 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     serverFetch<Array<{ name: string; count: number }>>('/catalog/brands', 60, []),
   ]);
 
+  const promoSlides = [
+    {
+      id: 'hero',
+      title: t('promo.heroTitle'),
+      subtitle: t('promo.heroSubtitle'),
+      cta: t('shopNow'),
+      href: '/mobiles/smartphones',
+      imageUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&h=600&fit=crop&q=80',
+    },
+    {
+      id: 'flash',
+      title: t('promo.flashTitle'),
+      subtitle: t('promo.flashSubtitle'),
+      cta: t('viewAll'),
+      href: '/deals/flash',
+      imageUrl: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=1200&h=600&fit=crop&q=80',
+    },
+    {
+      id: 'preowned',
+      title: t('promo.preOwnedTitle'),
+      subtitle: t('promo.preOwnedSubtitle'),
+      cta: t('shopNow'),
+      href: '/pre-owned/used-phones',
+      imageUrl: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=1200&h=600&fit=crop&q=80',
+    },
+  ];
+
   return (
     <div>
-      <section className="relative bg-[var(--nike-ink)] text-[var(--nike-on-primary)]">
-        <div className="container-main flex min-h-[420px] flex-col justify-end gap-6 py-16 md:min-h-[520px] md:py-24">
-          <h1 className="text-display-campaign max-w-4xl">{t('heroTitle')}</h1>
-          <p className="max-w-xl text-caption-md text-[var(--nike-stone)] md:text-base">{t('heroSubtitle')}</p>
-          <div>
-            <Link href={`/${locale}/mobiles/smartphones`}>
-              <Button variant="outline-on-image" size="lg">
-                {t('shopNow')}
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PromoCarousel slides={promoSlides} locale={locale} />
 
       {flashDeals.length > 0 && (
         <section className="container-main section-gap py-12">

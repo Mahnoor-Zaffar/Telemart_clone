@@ -13,7 +13,7 @@ export function CategoryGrid({ categories, locale }: { categories: CategoryTree[
         >
           <div className="relative mb-3 h-20 w-20 overflow-hidden rounded-full nike-product-image-bg">
             {cat.imageUrl && (
-              <ProductImage src={cat.imageUrl} alt={cat.name} fill className="object-cover" />
+              <ProductImage src={cat.imageUrl} alt={cat.name} fill className="object-cover" sizes="80px" />
             )}
           </div>
           <span className="text-body-strong text-center text-sm group-hover:underline">

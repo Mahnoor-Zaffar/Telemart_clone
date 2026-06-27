@@ -5,11 +5,17 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
+import type { CategoryTree } from '@telemart/types';
 import { Input } from '@/components/ui/input';
 import { useCartStore, useAuthStore } from '@/lib/store';
 import { Link as IntlLink } from '@/i18n/navigation';
+import { MegaMenu } from '@/components/layout/mega-menu';
 
-export function Header() {
+interface HeaderProps {
+  categories?: CategoryTree[];
+}
+
+export function Header({ categories = [] }: HeaderProps) {
   const t = useTranslations('nav');
   const locale = useLocale();
   const router = useRouter();
@@ -20,16 +26,8 @@ export function Header() {
   const cartInitialized = useCartStore((s) => s.initialized);
   const user = useAuthStore((s) => s.user);
 
-  const navLinks = [
-    { href: '/mobiles/smartphones', label: t('mobiles') },
-    { href: '/laptops/gaming-laptops', label: t('laptops') },
-    { href: '/electronics/smartwatches', label: t('electronics') },
-    { href: '/fashion/mens-wear', label: t('fashion') },
-    { href: '/pre-owned/used-phones', label: t('preOwned') },
-    { href: '/deals/flash', label: t('flashDeals') },
-  ];
-
   const switchLocale = locale === 'en' ? 'ur' : 'en';
+  const flashDealsHref = `/${locale}/deals/flash`;
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -52,17 +50,23 @@ export function Header() {
             TELEMART
           </IntlLink>
 
-          <nav className="mx-auto hidden items-center gap-6 lg:flex">
-            {navLinks.map((link) => (
-              <IntlLink
-                key={link.href}
-                href={link.href}
-                className="text-body-strong text-sm hover:underline underline-offset-4"
-              >
-                {link.label}
+          {categories.length > 0 ? (
+            <MegaMenu
+              categories={categories}
+              locale={locale}
+              flashDealsLabel={t('flashDeals')}
+              flashDealsHref={flashDealsHref}
+            />
+          ) : (
+            <nav className="mx-auto hidden items-center gap-6 lg:flex">
+              <IntlLink href="/mobiles/smartphones" className="text-body-strong text-sm hover:underline underline-offset-4">
+                {t('mobiles')}
               </IntlLink>
-            ))}
-          </nav>
+              <IntlLink href="/deals/flash" className="text-body-strong text-sm text-[var(--nike-sale)] hover:underline underline-offset-4">
+                {t('flashDeals')}
+              </IntlLink>
+            </nav>
+          )}
 
           <form onSubmit={handleSearch} className="hidden max-w-xs flex-1 md:flex">
             <div className="relative w-full">
@@ -121,21 +125,23 @@ export function Header() {
           <form onSubmit={handleSearch} className="mb-4">
             <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={t('search')} />
           </form>
-          <div className="flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <IntlLink
-                key={link.href}
-                href={link.href}
-                className="text-body-strong py-1"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </IntlLink>
-            ))}
-            <IntlLink href="/vendor/register" className="text-body-strong text-[var(--nike-mute)]">
-              {t('vendorRegister')}
-            </IntlLink>
-          </div>
+          {categories.length > 0 ? (
+            <MegaMenu
+              categories={categories}
+              locale={locale}
+              flashDealsLabel={t('flashDeals')}
+              flashDealsHref={flashDealsHref}
+              variant="mobile"
+              onNavigate={() => setMobileOpen(false)}
+            />
+          ) : null}
+          <IntlLink
+            href="/vendor/register"
+            className="mt-3 block text-body-strong text-[var(--nike-mute)]"
+            onClick={() => setMobileOpen(false)}
+          >
+            {t('vendorRegister')}
+          </IntlLink>
         </nav>
       )}
     </header>

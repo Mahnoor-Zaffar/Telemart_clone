@@ -30,7 +30,15 @@
     "under999": "Under Rs 999",
     "shopByBrand": "Shop by Brand",
     "preOwnedSpotlight": "Certified Pre-Owned",
-    "viewAll": "View All"
+    "viewAll": "View All",
+    "promo": {
+      "heroTitle": "Pakistan's Premium Online Store",
+      "heroSubtitle": "Mobiles, Laptops, Electronics & Fashion — Delivered Nationwide",
+      "flashTitle": "Flash Deals — Limited Time",
+      "flashSubtitle": "Up to 25% off on top smartphones. Grab yours before stock runs out.",
+      "preOwnedTitle": "Certified Pre-Owned",
+      "preOwnedSubtitle": "Quality-checked phones & laptops at unbeatable prices."
+    }
   },
   "trust": {
     "cod": "Cash on Delivery",

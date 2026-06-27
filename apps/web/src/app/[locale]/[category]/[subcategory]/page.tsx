@@ -5,6 +5,8 @@ import { serverFetch, emptyPaginated } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
 import { PlpFilters } from '@/components/catalog/plp-filters';
 import { PlpSortBar } from '@/components/catalog/plp-sort-bar';
+import { PlpNavigationProvider, PlpResultsShell } from '@/components/catalog/plp-navigation';
+import { PlpPageSkeleton } from '@/components/skeleton/plp-page-skeleton';
 import type { ProductCard as ProductCardType, PaginatedResponse } from '@telemart/types';
 
 async function CategoryContent({
@@ -12,11 +14,13 @@ async function CategoryContent({
   category,
   subcategory,
   searchParams,
+  brands,
 }: {
   locale: string;
   category: string;
   subcategory: string;
   searchParams: Record<string, string | undefined>;
+  brands: Array<{ name: string; count: number }>;
 }) {
   const t = await getTranslations('catalog');
   const tp = await getTranslations('product');
@@ -28,19 +32,16 @@ async function CategoryContent({
   if (searchParams.ptaStatus) query.set('ptaStatus', searchParams.ptaStatus);
   if (searchParams.page) query.set('page', searchParams.page);
 
-  const [data, brands] = await Promise.all([
-    serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query.toString()}`, 60, emptyPaginated()),
-    serverFetch<Array<{ name: string; count: number }>>(
-      `/catalog/brands?subcategory=${subcategory}`,
-      60,
-      [],
-    ),
-  ]);
+  const data = await serverFetch<PaginatedResponse<ProductCardType>>(
+    `/catalog/products?${query.toString()}`,
+    60,
+    emptyPaginated(),
+  );
 
   return (
     <div className="flex gap-8">
       <PlpFilters locale={locale} category={category} subcategory={subcategory} brands={brands} />
-      <div className="min-w-0 flex-1">
+      <PlpResultsShell>
         <h1 className="text-heading-xl mb-2 capitalize">{subcategory.replace(/-/g, ' ')}</h1>
         <PlpSortBar locale={locale} category={category} subcategory={subcategory} total={data.total} />
         {data.items.length === 0 ? (
@@ -78,7 +79,7 @@ async function CategoryContent({
             })}
           </div>
         )}
-      </div>
+      </PlpResultsShell>
     </div>
   );
 }
@@ -94,11 +95,25 @@ export default async function CategoryPage({
   const sp = await searchParams;
   setRequestLocale(locale);
 
+  const brands = await serverFetch<Array<{ name: string; count: number }>>(
+    `/catalog/brands?subcategory=${subcategory}`,
+    60,
+    [],
+  );
+
   return (
     <div className="container-main py-8">
-      <Suspense fallback={<div className="py-12 text-center">Loading...</div>}>
-        <CategoryContent locale={locale} category={category} subcategory={subcategory} searchParams={sp} />
-      </Suspense>
+      <PlpNavigationProvider>
+        <Suspense fallback={<PlpPageSkeleton />}>
+          <CategoryContent
+            locale={locale}
+            category={category}
+            subcategory={subcategory}
+            searchParams={sp}
+            brands={brands}
+          />
+        </Suspense>
+      </PlpNavigationProvider>
     </div>
   );
 }

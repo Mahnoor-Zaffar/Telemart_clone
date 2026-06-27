@@ -1,8 +1,9 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Select } from '@/components/ui/select';
 import { useTranslations } from 'next-intl';
+import { usePlpNavigation } from '@/components/catalog/plp-navigation';
 
 const SORT_OPTIONS = ['newest', 'price_asc', 'price_desc', 'popular', 'rating'] as const;
 
@@ -15,7 +16,7 @@ interface PlpSortBarProps {
 
 export function PlpSortBar({ locale, category, subcategory, total }: PlpSortBarProps) {
   const t = useTranslations('catalog');
-  const router = useRouter();
+  const { navigate } = usePlpNavigation();
   const searchParams = useSearchParams();
   const sort = searchParams.get('sort') ?? 'newest';
 
@@ -33,7 +34,7 @@ export function PlpSortBar({ locale, category, subcategory, total }: PlpSortBarP
             const params = new URLSearchParams(searchParams.toString());
             params.set('sort', e.target.value);
             params.delete('page');
-            router.push(`/${locale}/${category}/${subcategory}?${params.toString()}`);
+            navigate(`/${locale}/${category}/${subcategory}?${params.toString()}`);
           }}
           className="w-44"
         >
