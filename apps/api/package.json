@@ -7,10 +7,10 @@
     "dev": "nest build && node --watch dist/main.js",
     "start": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:push": "prisma db push",
-    "db:seed": "ts-node --transpile-only prisma/seed.ts",
+    "db:generate": "dotenv -e ../../.env -- prisma generate",
+    "db:migrate": "dotenv -e ../../.env -- prisma migrate dev",
+    "db:push": "dotenv -e ../../.env -- prisma db push",
+    "db:seed": "dotenv -e ../../.env -- ts-node --transpile-only prisma/seed.ts",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --forceExit"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "ioredis": "^5.6.1",
+    "meilisearch": "^0.58.0",
     "mongoose": "^8.16.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",

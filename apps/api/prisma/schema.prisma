@@ -177,6 +177,9 @@ model Product {
   @@index([brand])
   @@index([condition])
   @@index([price])
+  @@index([isFeatured])
+  @@index([isWeeklyDeal])
+  @@index([isUnder999])
 }
 
 model FlashSale {

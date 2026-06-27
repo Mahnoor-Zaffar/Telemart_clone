@@ -31,6 +31,15 @@ export class RedisService implements OnModuleDestroy {
     await this.client.del(key);
   }
 
+  async delByPrefix(prefix: string): Promise<void> {
+    let cursor = '0';
+    do {
+      const [next, keys] = await this.client.scan(cursor, 'MATCH', `${prefix}*`, 'COUNT', 100);
+      cursor = next;
+      if (keys.length) await this.client.del(...keys);
+    } while (cursor !== '0');
+  }
+
   async acquireLock(key: string, ttlSeconds = 30): Promise<boolean> {
     const result = await this.client.set(key, '1', 'EX', ttlSeconds, 'NX');
     return result === 'OK';

@@ -3,6 +3,8 @@ import * as bcrypt from 'bcryptjs';
 import slugify from 'slugify';
 import { getCategoryImage, getProductGallery, getProductImage } from './seed-images';
 import { seedMongo } from './seed-mongo';
+import { seedMeilisearch } from './seed-meilisearch';
+import { clearCatalogCache } from './seed-cache';
 
 const prisma = new PrismaClient();
 
@@ -112,6 +114,52 @@ async function main() {
     },
   });
 
+  const vendorUsers = await Promise.all(
+    [
+      { email: 'vendor1@telemart.local', name: 'TechZone Pakistan' },
+      { email: 'vendor2@telemart.local', name: 'Mobile Hub Lahore' },
+    ].map(async (v) => {
+      const hash = await bcrypt.hash('vendor123', 12);
+      return prisma.user.upsert({
+        where: { email: v.email },
+        update: {},
+        create: { email: v.email, passwordHash: hash, fullName: v.name, phone: '03009998877', role: 'VENDOR' },
+      });
+    }),
+  );
+
+  const vendors = await Promise.all(
+    vendorUsers.map((user, i) =>
+      prisma.vendor.upsert({
+        where: { userId: user.id },
+        update: { status: 'APPROVED' },
+        create: {
+          userId: user.id,
+          businessName: user.fullName,
+          slug: slugify(user.fullName, { lower: true, strict: true }),
+          phone: '03009998877',
+          cnic: `35202-${1000000 + i}-${i}`,
+          address: 'Main Boulevard',
+          city: i === 0 ? 'Karachi' : 'Lahore',
+          status: 'APPROVED',
+          rating: 4.3 + i * 0.1,
+        },
+      }),
+    ),
+  );
+
+  const reviewers = await Promise.all(
+    ['Ali Khan', 'Sara Ahmed', 'Usman Raza', 'Fatima Noor'].map(async (name, i) => {
+      const email = `reviewer${i + 1}@telemart.local`;
+      const hash = await bcrypt.hash('reviewer123', 12);
+      return prisma.user.upsert({
+        where: { email },
+        update: {},
+        create: { email, passwordHash: hash, fullName: name, role: 'CUSTOMER' },
+      });
+    }),
+  );
+
   const catMap: Record<string, string> = {};
 
   for (const cat of categories) {
@@ -146,18 +194,33 @@ async function main() {
   const createdProducts: Array<{
     id: string;
     slug: string;
+    title: string;
+    brand: string | null;
+    description: string;
+    price: number;
+    ptaStatus: string;
     condition: string;
     preOwnedGrade: string | null;
     specs: unknown;
     categoryId: string;
+    categorySlug: string;
+    reviewCount: number;
+    rating: number | null;
+    imageUrl: string;
+    isFeatured: boolean;
   }> = [];
+
+  let productIndex = 0;
   for (const p of products) {
     const slug = slugify(p.title, { lower: true, strict: true });
     const imageUrl = getProductImage(slug, p.cat);
     const images = getProductGallery(slug, p.cat);
+    const isUnder999 = p.under999 ?? p.price < 1000;
+    const vendorId = vendors[productIndex % vendors.length].id;
+
     const product = await prisma.product.upsert({
       where: { slug },
-      update: { imageUrl, images },
+      update: { imageUrl, images, isUnder999, vendorId },
       create: {
         slug,
         title: p.title,
@@ -169,26 +232,60 @@ async function main() {
         images,
         brand: p.brand,
         categoryId: catMap[p.cat],
+        vendorId,
         ptaStatus: p.pta as 'APPROVED' | 'NON_PTA' | 'NA',
         condition: (p.condition as 'NEW' | 'PRE_OWNED') ?? 'NEW',
         preOwnedGrade: p.grade as 'A' | 'B' | 'C' | undefined,
         specs: p.specs,
         isFeatured: p.featured ?? false,
         isWeeklyDeal: p.weekly ?? false,
-        isUnder999: p.under999 ?? false,
-        rating: 3.5 + Math.random() * 1.5,
-        reviewCount: Math.floor(Math.random() * 200),
+        isUnder999,
+        rating: null,
+        reviewCount: 0,
         searchVector: `${p.title} ${p.brand} ${JSON.stringify(p.specs)}`.toLowerCase(),
       },
     });
     createdProducts.push({
       id: product.id,
       slug: product.slug,
+      title: product.title,
+      brand: product.brand,
+      description: product.description,
+      price: Number(product.price),
+      ptaStatus: product.ptaStatus,
       condition: product.condition,
       preOwnedGrade: product.preOwnedGrade,
       specs: product.specs,
       categoryId: product.categoryId,
+      categorySlug: p.cat,
+      reviewCount: 0,
+      rating: null,
+      imageUrl: product.imageUrl,
+      isFeatured: product.isFeatured,
     });
+    productIndex++;
+  }
+
+  const reviewTemplates = [
+    { rating: 5, title: 'Excellent', comment: 'Fast delivery and genuine product.' },
+    { rating: 4, title: 'Good value', comment: 'Works as described. Secure packaging.' },
+    { rating: 5, title: 'Recommended', comment: 'Best price in Pakistan.' },
+  ];
+
+  for (const product of createdProducts.filter((p) => p.isFeatured)) {
+    for (let i = 0; i < 3; i++) {
+      const tpl = reviewTemplates[i];
+      const reviewer = reviewers[i];
+      await prisma.review.upsert({
+        where: { productId_userId: { productId: product.id, userId: reviewer.id } },
+        update: { rating: tpl.rating, title: tpl.title, comment: tpl.comment },
+        create: { productId: product.id, userId: reviewer.id, ...tpl },
+      });
+    }
+    const agg = await prisma.review.aggregate({ where: { productId: product.id }, _avg: { rating: true }, _count: true });
+    await prisma.product.update({ where: { id: product.id }, data: { rating: agg._avg.rating, reviewCount: agg._count } });
+    product.reviewCount = agg._count;
+    product.rating = agg._avg.rating;
   }
 
   await seedMongo(
@@ -198,11 +295,11 @@ async function main() {
       condition: p.condition,
       preOwnedGrade: p.preOwnedGrade,
       specs: p.specs,
-      categorySlug: Object.entries(catMap).find(([, id]) => id === p.categoryId)?.[0] ?? 'smartphones',
+      categorySlug: p.categorySlug,
     })),
   );
 
-  // Flash deals on first 4 products
+  await prisma.flashSale.deleteMany({ where: { productId: { in: createdProducts.slice(0, 4).map((p) => p.id) } } });
   for (let i = 0; i < 4; i++) {
     await prisma.flashSale.create({
       data: {
@@ -215,6 +312,9 @@ async function main() {
       },
     });
   }
+
+  await seedMeilisearch(createdProducts);
+  await clearCatalogCache();
 
   await prisma.blogPost.createMany({
     data: [
