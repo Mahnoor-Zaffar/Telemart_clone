@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MeilisearchModule } from './meilisearch/meilisearch.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -25,7 +26,7 @@ import { HealthController } from './health.controller';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env', '../../.env'] }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
     BullModule.forRootAsync({
       inject: [ConfigService],
@@ -38,6 +39,7 @@ import { HealthController } from './health.controller';
     }),
     PrismaModule,
     RedisModule,
+    MeilisearchModule,
     DatabaseModule,
     AuthModule,
     CatalogModule,

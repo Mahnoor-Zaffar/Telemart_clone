@@ -38,13 +38,14 @@ export class CatalogController {
       grade: grade ? (grade.split(',') as unknown as PreOwnedGrade[]) : undefined,
       sort,
       page: page ? Number(page) : 1,
-      limit: limit ? Number(limit) : 20,
+      limit: limit ? Math.min(Number(limit), 100) : 20,
     });
   }
 
   @Get('products/:slug')
-  getProduct(@Param('slug') slug: string) {
-    return this.catalogService.getProductBySlug(slug);
+  getProduct(@Param('slug') slug: string, @Query('include') include?: string) {
+    const parts = include ? include.split(',').map((s) => s.trim()) : [];
+    return this.catalogService.getProductBySlug(slug, parts);
   }
 
   @Get('featured')

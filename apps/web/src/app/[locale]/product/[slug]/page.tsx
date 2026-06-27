@@ -43,8 +43,12 @@ export default async function ProductPage({
   let product: ProductDetail;
   let reviews: Review[] = [];
   try {
-    product = await serverFetch<ProductDetail>(`/catalog/products/${slug}`, 300);
-    reviews = await serverFetch<Review[]>(`/reviews/product/${product.id}`, 300);
+    const data = await serverFetch<ProductDetail & { reviews?: Review[] }>(
+      `/catalog/products/${slug}?include=reviews`,
+      300,
+    );
+    product = data;
+    reviews = data.reviews ?? [];
   } catch {
     notFound();
   }

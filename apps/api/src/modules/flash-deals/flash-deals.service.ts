@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { toProductCard } from '../../common/mappers';
+import { productListSelect } from '../../common/product-select';
 
 @Injectable()
 export class FlashDealsService {
@@ -9,7 +10,7 @@ export class FlashDealsService {
   async getActiveDeals() {
     const deals = await this.prisma.flashSale.findMany({
       where: { isActive: true, endsAt: { gt: new Date() } },
-      include: { product: true },
+      include: { product: { select: productListSelect } },
       orderBy: { endsAt: 'asc' },
     });
 

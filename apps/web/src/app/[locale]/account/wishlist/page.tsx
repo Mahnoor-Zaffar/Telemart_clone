@@ -6,9 +6,9 @@ import { useTranslations } from 'next-intl';
 import { apiFetch } from '@/lib/api';
 import { getAuthToken } from '@/lib/utils';
 import { useAuthStore } from '@/lib/store';
-import type { ProductCard } from '@telemart/types';
-import { ProductCard as ProductCardComponent } from '@/components/product/product-card';
+import { ProductCardClient } from '@/components/product/product-card-client';
 import { EmptyState } from '@/components/ui/empty-state';
+import type { ProductCard } from '@telemart/types';
 
 export default function WishlistPage() {
   const t = useTranslations('account');
@@ -38,7 +38,7 @@ export default function WishlistPage() {
         />
       ) : (
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {items.map((p) => <ProductCardComponent key={p.id} product={p} locale={locale} />)}
+          {items.map((p) => <ProductCardClient key={p.id} product={p} locale={locale} />)}
         </div>
       )}
     </div>

@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
-import { serverFetch } from '@/lib/api';
+import { serverFetch, emptyPaginated } from '@/lib/api';
 import { ProductCard } from '@/components/product/product-card';
 import { PlpFilters } from '@/components/catalog/plp-filters';
 import { PlpSortBar } from '@/components/catalog/plp-sort-bar';
@@ -19,6 +19,7 @@ async function CategoryContent({
   searchParams: Record<string, string | undefined>;
 }) {
   const t = await getTranslations('catalog');
+  const tp = await getTranslations('product');
   const query = new URLSearchParams({ category, subcategory });
   if (searchParams.sort) query.set('sort', searchParams.sort);
   if (searchParams.brand) query.set('brand', searchParams.brand);
@@ -28,9 +29,11 @@ async function CategoryContent({
   if (searchParams.page) query.set('page', searchParams.page);
 
   const [data, brands] = await Promise.all([
-    serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query.toString()}`),
+    serverFetch<PaginatedResponse<ProductCardType>>(`/catalog/products?${query.toString()}`, 60, emptyPaginated()),
     serverFetch<Array<{ name: string; count: number }>>(
       `/catalog/brands?subcategory=${subcategory}`,
+      60,
+      [],
     ),
   ]);
 
@@ -45,7 +48,7 @@ async function CategoryContent({
         ) : (
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
             {data.items.map((p) => (
-              <ProductCard key={p.id} product={p} locale={locale} />
+              <ProductCard key={p.id} product={p} locale={locale} inStockLabel={tp('inStock')} outOfStockLabel={tp('outOfStock')} />
             ))}
           </div>
         )}

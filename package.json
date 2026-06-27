@@ -6,13 +6,14 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "dotenv -e .env -- turbo dev",
+    "predev": "node scripts/kill-dev-ports.mjs",
     "build": "turbo build",
     "lint": "turbo lint",
-    "db:generate": "npm run db:generate --workspace=@telemart/api",
-    "db:push": "npm run db:push --workspace=@telemart/api",
-    "db:migrate": "npm run db:migrate --workspace=@telemart/api",
-    "db:seed": "npm run db:seed --workspace=@telemart/api",
+    "db:generate": "dotenv -e .env -- npm run db:generate --workspace=@telemart/api",
+    "db:push": "dotenv -e .env -- npm run db:push --workspace=@telemart/api",
+    "db:migrate": "dotenv -e .env -- npm run db:migrate --workspace=@telemart/api",
+    "db:seed": "dotenv -e .env -- npm run db:seed --workspace=@telemart/api",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "test:api": "npm run test:e2e --workspace=@telemart/api",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.53.2",
+    "dotenv-cli": "^11.0.0",
     "turbo": "^2.5.4",
     "typescript": "^5.8.3"
   },

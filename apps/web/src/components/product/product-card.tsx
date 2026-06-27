@@ -1,7 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import type { ProductCard as ProductCardType } from '@telemart/types';
 import { formatPrice, cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -10,10 +7,11 @@ import { ProductImage } from '@/components/product/product-image';
 interface ProductCardProps {
   product: ProductCardType;
   locale: string;
+  inStockLabel: string;
+  outOfStockLabel: string;
 }
 
-export function ProductCard({ product, locale }: ProductCardProps) {
-  const t = useTranslations('product');
+export function ProductCard({ product, locale, inStockLabel, outOfStockLabel }: ProductCardProps) {
   const discount = product.compareAtPrice
     ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
     : 0;
@@ -61,7 +59,7 @@ export function ProductCard({ product, locale }: ProductCardProps) {
             )}
           </div>
           <p className={cn('text-caption-sm', product.inStock ? 'text-[var(--nike-success)]' : 'text-[var(--nike-sale)]')}>
-            {product.inStock ? t('inStock') : t('outOfStock')}
+            {product.inStock ? inStockLabel : outOfStockLabel}
           </p>
         </div>
       </article>

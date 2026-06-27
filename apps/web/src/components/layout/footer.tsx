@@ -1,11 +1,9 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
-export function Footer() {
-  const t = useTranslations('footer');
-  const nav = useTranslations('nav');
+export async function Footer() {
+  const t = await getTranslations('footer');
+  const nav = await getTranslations('nav');
 
   const columns = [
     {

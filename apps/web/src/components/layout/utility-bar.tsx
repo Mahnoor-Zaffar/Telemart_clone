@@ -1,12 +1,9 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
 
-export function UtilityBar() {
-  const t = useTranslations('nav');
-  const locale = useLocale();
+export async function UtilityBar() {
+  const t = await getTranslations('nav');
+  const locale = await getLocale();
 
   return (
     <div className="hidden h-9 items-center justify-end gap-6 bg-[var(--nike-soft-cloud)] px-4 text-xs font-medium text-[var(--nike-ink)] sm:flex sm:px-8 lg:px-12">

@@ -1,7 +1,23 @@
 import { Product } from '@prisma/client';
 import { ProductCard, ProductDetail, PtaStatus, ProductCondition, PreOwnedGrade } from '@telemart/types';
 
-export function toProductCard(product: Product & { flashDeals?: Array<{ endsAt: Date; discountPercent: number }> }): ProductCard {
+type ProductWithFlash = {
+  id: string;
+  slug: string;
+  title: string;
+  price: unknown;
+  compareAtPrice?: unknown;
+  imageUrl: string;
+  brand?: string | null;
+  ptaStatus: string;
+  condition: string;
+  rating?: number | null;
+  reviewCount: number;
+  stock: number;
+  flashDeals?: Array<{ endsAt: Date; discountPercent: number }>;
+};
+
+export function toProductCard(product: ProductWithFlash | (Product & { flashDeals?: Array<{ endsAt: Date; discountPercent: number }> })): ProductCard {
   const activeFlash = product.flashDeals?.[0];
   return {
     id: product.id,

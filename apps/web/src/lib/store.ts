@@ -4,58 +4,59 @@ import type { CartItem } from '@telemart/types';
 import { apiFetch } from './api';
 import { getCartId } from './utils';
 
+function countItems(items: CartItem[]): number {
+  return items.reduce((sum, i) => sum + i.quantity, 0);
+}
+
 interface CartStore {
   items: CartItem[];
   loading: boolean;
+  initialized: boolean;
+  itemCount: number;
   fetchCart: () => Promise<void>;
   addItem: (productId: string, quantity?: number) => Promise<void>;
   updateQuantity: (productId: string, quantity: number) => Promise<void>;
   removeItem: (productId: string) => Promise<void>;
-  itemCount: () => number;
 }
 
-export const useCartStore = create<CartStore>()(
-  persist(
-    (set, get) => ({
-      items: [],
-      loading: false,
-      itemCount: () => get().items.reduce((s, i) => s + i.quantity, 0),
-      fetchCart: async () => {
-        set({ loading: true });
-        try {
-          const items = await apiFetch<CartItem[]>('/cart', { cartId: getCartId() });
-          set({ items });
-        } finally {
-          set({ loading: false });
-        }
-      },
-      addItem: async (productId, quantity = 1) => {
-        const items = await apiFetch<CartItem[]>('/cart/items', {
-          method: 'POST',
-          cartId: getCartId(),
-          body: JSON.stringify({ productId, quantity }),
-        });
-        set({ items });
-      },
-      updateQuantity: async (productId, quantity) => {
-        const items = await apiFetch<CartItem[]>(`/cart/items/${productId}`, {
-          method: 'PATCH',
-          cartId: getCartId(),
-          body: JSON.stringify({ quantity }),
-        });
-        set({ items });
-      },
-      removeItem: async (productId) => {
-        const items = await apiFetch<CartItem[]>(`/cart/items/${productId}`, {
-          method: 'DELETE',
-          cartId: getCartId(),
-        });
-        set({ items });
-      },
-    }),
-    { name: 'cart-items', partialize: (s) => ({ items: s.items }) },
-  ),
-);
+export const useCartStore = create<CartStore>((set) => ({
+  items: [],
+  loading: false,
+  initialized: false,
+  itemCount: 0,
+  fetchCart: async () => {
+    set({ loading: true });
+    try {
+      const items = await apiFetch<CartItem[]>('/cart', { cartId: getCartId() });
+      set({ items, itemCount: countItems(items), initialized: true });
+    } finally {
+      set({ loading: false });
+    }
+  },
+  addItem: async (productId, quantity = 1) => {
+    const items = await apiFetch<CartItem[]>('/cart/items', {
+      method: 'POST',
+      cartId: getCartId(),
+      body: JSON.stringify({ productId, quantity }),
+    });
+    set({ items, itemCount: countItems(items), initialized: true });
+  },
+  updateQuantity: async (productId, quantity) => {
+    const items = await apiFetch<CartItem[]>(`/cart/items/${productId}`, {
+      method: 'PATCH',
+      cartId: getCartId(),
+      body: JSON.stringify({ quantity }),
+    });
+    set({ items, itemCount: countItems(items) });
+  },
+  removeItem: async (productId) => {
+    const items = await apiFetch<CartItem[]>(`/cart/items/${productId}`, {
+      method: 'DELETE',
+      cartId: getCartId(),
+    });
+    set({ items, itemCount: countItems(items) });
+  },
+}));
 
 interface AuthStore {
   user: { id: string; email: string; fullName: string; role: string } | null;
