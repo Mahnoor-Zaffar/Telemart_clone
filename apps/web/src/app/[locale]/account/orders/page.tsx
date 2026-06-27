@@ -10,6 +10,7 @@ import { useAuthStore } from '@/lib/store';
 import type { OrderSummary } from '@telemart/types';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
+import { AccountListSkeleton } from '@/components/skeleton/account-list-skeleton';
 
 export default function OrdersPage() {
   const t = useTranslations('account');
@@ -18,16 +19,21 @@ export default function OrdersPage() {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
   const [orders, setOrders] = useState<OrderSummary[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user && !getAuthToken()) {
       router.push(`/${locale}/account/login?redirect=/${locale}/account/orders`);
       return;
     }
+    setLoading(true);
     apiFetch<OrderSummary[]>('/orders', { token: getAuthToken() })
       .then(setOrders)
-      .catch(() => {});
+      .catch(() => setOrders([]))
+      .finally(() => setLoading(false));
   }, [user, locale, router]);
+
+  if (loading) return <AccountListSkeleton />;
 
   return (
     <div className="container-main py-8">

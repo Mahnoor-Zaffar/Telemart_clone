@@ -8,6 +8,7 @@ import { getAuthToken } from '@/lib/utils';
 import { useAuthStore } from '@/lib/store';
 import { ProductCardClient } from '@/components/product/product-card-client';
 import { EmptyState } from '@/components/ui/empty-state';
+import { AccountListSkeleton } from '@/components/skeleton/account-list-skeleton';
 import type { ProductCard } from '@telemart/types';
 
 export default function WishlistPage() {
@@ -17,14 +18,21 @@ export default function WishlistPage() {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
   const [items, setItems] = useState<ProductCard[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user && !getAuthToken()) {
       router.push(`/${locale}/account/login`);
       return;
     }
-    apiFetch<ProductCard[]>('/wishlist', { token: getAuthToken() }).then(setItems).catch(() => {});
+    setLoading(true);
+    apiFetch<ProductCard[]>('/wishlist', { token: getAuthToken() })
+      .then(setItems)
+      .catch(() => setItems([]))
+      .finally(() => setLoading(false));
   }, [user, locale, router]);
+
+  if (loading) return <AccountListSkeleton />;
 
   return (
     <div className="container-main py-8">

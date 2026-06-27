@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Sheet } from '@/components/ui/sheet';
 import { SlidersHorizontal } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { usePlpNavigation } from '@/components/catalog/plp-navigation';
 
 interface PlpFiltersProps {
   locale: string;
@@ -17,7 +18,7 @@ interface PlpFiltersProps {
 
 export function PlpFilters({ locale, category, subcategory, brands }: PlpFiltersProps) {
   const t = useTranslations('catalog');
-  const router = useRouter();
+  const { navigate } = usePlpNavigation();
   const searchParams = useSearchParams();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -34,15 +35,15 @@ export function PlpFilters({ locale, category, subcategory, brands }: PlpFilters
         else params.delete(k);
       });
       params.delete('page');
-      router.push(`/${locale}/${category}/${subcategory}?${params.toString()}`);
+      navigate(`/${locale}/${category}/${subcategory}?${params.toString()}`);
       setMobileOpen(false);
     },
-    [searchParams, router, locale, category, subcategory],
+    [searchParams, navigate, locale, category, subcategory],
   );
 
   const clearAll = () => {
     const sort = searchParams.get('sort');
-    router.push(`/${locale}/${category}/${subcategory}${sort ? `?sort=${sort}` : ''}`);
+    navigate(`/${locale}/${category}/${subcategory}${sort ? `?sort=${sort}` : ''}`);
     setMobileOpen(false);
   };
 

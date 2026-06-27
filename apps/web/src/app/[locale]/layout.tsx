@@ -9,6 +9,8 @@ import { TrustBar } from '@/components/layout/trust-bar';
 import { UtilityBar } from '@/components/layout/utility-bar';
 import { CartSync } from '@/components/cart/cart-sync';
 import { Toaster } from '@/components/ui/toast';
+import { serverFetch } from '@/lib/api';
+import type { CategoryTree } from '@telemart/types';
 import '../globals.css';
 
 const bebas = Bebas_Neue({
@@ -40,6 +42,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
   const dir = locale === 'ur' ? 'rtl' : 'ltr';
+  const categories = await serverFetch<CategoryTree[]>('/catalog/categories', 3600, []);
 
   return (
     <html
@@ -51,7 +54,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <CartSync />
           <UtilityBar />
-          <Header />
+          <Header categories={categories} />
           <TrustBar />
           <main className="flex-1">{children}</main>
           <Footer />
